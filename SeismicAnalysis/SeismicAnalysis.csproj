@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,9 +46,86 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Day_1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Day_2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Depth_1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Depth_2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IRIS_ID_1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\IRIS_ID_2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Latitude_1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Latitude_2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Longitude_1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Longitude_2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Magnitude_1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Magnitude_2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Month_1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Month_2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Region_1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Region_2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Time_1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Time_2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Timestamp_1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Timestamp_2.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Year_1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Year_2.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -52,6 +52,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SeismicRecord.cs" />
+    <Compile Include="Sorting.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

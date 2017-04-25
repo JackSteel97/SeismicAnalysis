@@ -55,13 +55,14 @@ namespace SeismicAnalysis {
             populateArraysOne();
             SeismicRecord[] data1 = new SeismicRecord[year.Length];
             data1 = fillRecordArray();
-            outputCurrentState(data1);
-/*
             
+
             string selected = selectDataToAnalyse();
-            data1 = sortSelectedData(selected, data1);
+
+            //data1 = sortSelectedData(selected, data1);
+            //data1 = Searching.linearSearchForMultiple(data1, 5, data1[0].GetType().GetProperty(selected));
+    
             outputCurrentState(data1);
-            */
             Console.Read();
         }
 
@@ -121,8 +122,9 @@ namespace SeismicAnalysis {
                     //reverse the ascending order array to get a decending order one
                     SeismicRecord[] output = new SeismicRecord[temp.Length];
                     int count = 0;
-                    for (int i = temp.Length - 1; i <= 0; i--) {
-                        output[count] = temp[i];
+                    for (int i = temp.Length - 1; i >= 0; i--) {
+                        output[count] = (SeismicRecord)temp[i].Clone();
+                        count++;
                     }
                     return output;
                 default:
@@ -142,7 +144,7 @@ namespace SeismicAnalysis {
         //task 7 and 5
         private static void outputCurrentState(SeismicRecord[] data) {
             //headers
-            Console.WriteLine("{0,25}\t|\t{1,25}\t|\t{2,25}\t|\t{3,25}\t|\t{4,25}\t|\t{5,25}\t|\t{6,25}\t|\t{7,25}\t|\t{8,25}\t|\t{9,25}\t|\t{10,25}","Year", "Month", "Day", "Time","Magnitude","Latitude","Longitude","Depth","Region", "IRIS ID", "Timestamp" );
+            Console.WriteLine("{0,25}\t|\t{1,25}\t|\t{2,25}\t|\t{3,25}\t|\t{4,25}\t|\t{5,25}\t|\t{6,25}\t|\t{7,25}\t|\t{8,25}\t|\t{9,25}\t|\t{10,25}","Year".ToUpper(), "Month".ToUpper(), "Day".ToUpper(), "Time".ToUpper(), "Magnitude".ToUpper(), "Latitude".ToUpper(), "Longitude".ToUpper(), "Depth".ToUpper(), "Region".ToUpper(), "IRIS ID", "Timestamp".ToUpper());
             //data
             foreach (SeismicRecord s in data) {
                 Console.WriteLine("{0,25}\t|\t{1,25}\t|\t{2,25}\t|\t{3,25}\t|\t{4,25}\t|\t{5,25}\t|\t{6,25}\t|\t{7,25}\t|\t{8,25}\t|\t{9,25}\t|\t{10,25}", s.Year, s.getMonth(), s.getDay(), s.Time, s.Magnitude, s.Lat, s.Lon, s.Depth, s.Region, s.ID, s.Timestamp);

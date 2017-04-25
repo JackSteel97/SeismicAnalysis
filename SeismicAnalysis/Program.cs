@@ -50,20 +50,42 @@ namespace SeismicAnalysis {
             Process p = Process.GetCurrentProcess();
             ShowWindow(p.MainWindowHandle, 3);
             Console.SetBufferSize(9001, 9001);
-            
-            //read in files: *_1.txt
-            populateArraysOne();
-            SeismicRecord[] data1 = new SeismicRecord[year.Length];
-            data1 = fillRecordArray();
-            
 
-            string selected = selectDataToAnalyse();
 
-            //data1 = sortSelectedData(selected, data1);
-            //data1 = Searching.linearSearchForMultiple(data1, 5, data1[0].GetType().GetProperty(selected));
-    
-            outputCurrentState(data1);
+            int datasetSelection = chooseDataset();
+            SeismicRecord[] data = loadDataset(datasetSelection);
+
             Console.Read();
+        }
+
+        private static SeismicRecord[] loadDataset(int selection) {
+            switch (selection) {      
+                case 2:
+                    //dataset 2
+                    populateArraysTwo();
+                    return fillRecordArray();
+                case 3:
+                    //task 9
+                    //both datasets
+                    populateArraysOne();
+                    SeismicRecord[] first = fillRecordArray();
+                    populateArraysTwo();
+                    SeismicRecord[] second = fillRecordArray();
+                    SeismicRecord[] output = new SeismicRecord[first.Length + second.Length];
+                    first.CopyTo(output, 0);
+                    first.CopyTo(output, first.Length);
+                    return output;
+                default:
+                    //dataset 1
+                    populateArraysOne();
+                    return fillRecordArray();
+            }
+        }
+
+        private static int chooseDataset() {
+            Console.WriteLine("Please choose which data set you wish to analyse: ");
+            Console.WriteLine("1:\tRegion one\n2:\tRegion two\n3:\tBoth regions");
+            return getUserInput(1, 3);
         }
 
         //task 1
@@ -251,6 +273,84 @@ namespace SeismicAnalysis {
 
             //timestamp
             string timestampRaw = Properties.Resources.Timestamp_1;
+            string[] timestampLines = timestampRaw.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            timestamp = new long[timestampLines.Length];
+            for (int i = 0; i < timestampLines.Length; i++) {
+                timestamp[i] = Convert.ToInt64(timestampLines[i]);
+            }
+        }
+
+        private static void populateArraysTwo() {
+            //year
+            string yearRaw = Properties.Resources.Year_2;
+            string[] yearLines = yearRaw.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            year = new int[yearLines.Length];
+            for (int i = 0; i < yearLines.Length; i++) {
+                year[i] = Convert.ToInt32(yearLines[i]);
+            }
+
+            //month
+            string monthRaw = Properties.Resources.Month_2;
+            string[] monthLines = monthRaw.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            month = monthLines;
+
+            //day
+            string dayRaw = Properties.Resources.Day_2;
+            string[] dayLines = dayRaw.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            day = new int[dayLines.Length];
+            for (int i = 0; i < dayLines.Length; i++) {
+                day[i] = Convert.ToInt32(dayLines[i]);
+            }
+
+            //time
+            string timeRaw = Properties.Resources.Time_2;
+            string[] timeLines = timeRaw.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            time = timeLines;
+
+            //magnitude
+            string magRaw = Properties.Resources.Magnitude_2;
+            string[] magLines = magRaw.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            mag = new decimal[magLines.Length];
+            for (int i = 0; i < magLines.Length; i++) {
+                mag[i] = Convert.ToDecimal(magLines[i]);
+            }
+
+            //latitude
+            string latRaw = Properties.Resources.Latitude_2;
+            string[] latLines = latRaw.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            lat = new decimal[latLines.Length];
+            for (int i = 0; i < latLines.Length; i++) {
+                lat[i] = Convert.ToDecimal(latLines[i]);
+            }
+
+            //longitude
+            string lonRaw = Properties.Resources.Longitude_2;
+            string[] lonLines = lonRaw.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            lon = new decimal[lonLines.Length];
+            for (int i = 0; i < lonLines.Length; i++) {
+                lon[i] = Convert.ToDecimal(lonLines[i]);
+            }
+
+            //depth
+            string depthRaw = Properties.Resources.Depth_2;
+            string[] depthLines = depthRaw.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            depth = new decimal[depthLines.Length];
+            for (int i = 0; i < depthLines.Length; i++) {
+                depth[i] = Convert.ToDecimal(depthLines[i]);
+            }
+
+            //region
+            string regionRaw = Properties.Resources.Region_2;
+            string[] regionLines = regionRaw.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            region = regionLines;
+
+            //id
+            string idRaw = Properties.Resources.IRIS_ID_2;
+            string[] idLines = idRaw.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            id = idLines;
+
+            //timestamp
+            string timestampRaw = Properties.Resources.Timestamp_2;
             string[] timestampLines = timestampRaw.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             timestamp = new long[timestampLines.Length];
             for (int i = 0; i < timestampLines.Length; i++) {

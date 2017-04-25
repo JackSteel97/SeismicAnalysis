@@ -84,6 +84,12 @@ namespace SeismicAnalysis {
             }
         }
 
+        public DateTime Date {
+            get {
+                return new DateTime(this.year, this.month, this.day);               
+            }
+        }
+
         public SeismicRecord(int year, string month, int day, string time, decimal magnitude, decimal lat, decimal lon, decimal depth, string region, string id, long timestamp) {
             this.year = year;            
             switch (month.Trim().ToLower()) {

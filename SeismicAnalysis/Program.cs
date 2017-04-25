@@ -30,8 +30,50 @@ namespace SeismicAnalysis {
         private static long[] timestamp;
 
         static void Main(string[] args) {
+            //read in files: *_1.txt
             populateArraysOne();
-            Console.Read();
+            SeismicRecord[] data1 = new SeismicRecord[year.Length];
+            data1 = fillRecordArray();
+            selectDataToAnalyse();
+        }
+
+        //task 1
+        private static int selectDataToAnalyse() {
+            //output options
+            Console.WriteLine("Select what data you want to analyse: ");
+            Console.WriteLine("1:\tYear\n2:\tMonth\n3:\tDay\n4:\tTime\n5:\tMagnitude\n6:\tLatitude\n7:\tLongitude\n8:\tDepth\n9:\tRegion\n10:\tIRIS ID\n11:\tTimestamp\n");
+            int selection = getUserInput(1, 11);
+            return selection;
+        }
+
+
+        private static int getUserInput(int lowerBound, int upperBound) {            
+            bool valid = false;
+            int val = 0;
+            do {
+                string input = Console.ReadLine();              
+                if (int.TryParse(input,out val)) {
+                    if (val >= lowerBound && val <= upperBound) {
+                        valid = true;                       
+                    }
+                }
+                if (!valid) {
+                    Console.WriteLine("Invalid input, please try again...");
+                }
+            } while (!valid);
+            return val;
+        }
+
+        /// <summary>
+        /// Populate an array from the global data arrays
+        /// </summary>
+        /// <returns>An array of SeismicRecord objects</returns>
+        private static SeismicRecord[] fillRecordArray() {
+            SeismicRecord[] data = new SeismicRecord[year.Length];
+            for(int i = 0; i < year.Length; i++) {
+                data[i] = new SeismicRecord(year[i], month[i], day[i], time[i], mag[i], lat[i], lon[i], depth[i], region[i], id[i], timestamp[i]);
+            }
+            return data;
         }
 
         private static void populateArraysOne() {

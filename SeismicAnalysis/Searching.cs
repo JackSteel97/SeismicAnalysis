@@ -91,7 +91,8 @@ namespace SeismicAnalysis {
                     }
                 } else if (searchProperty.PropertyType == typeof(decimal)) {
                     decimal a = (decimal)searchProperty.GetValue(s);
-                    decimal b = (decimal)value;
+                    decimal b = 0;
+                    decimal.TryParse((string)value, out b);
                     if (a == b) {
                         return s;
                     }
@@ -132,7 +133,8 @@ namespace SeismicAnalysis {
                     }
                 }else if (searchProperty.PropertyType == typeof(decimal)) {
                     decimal a = (decimal)searchProperty.GetValue(s);
-                    decimal b = (decimal)value;
+                    decimal b = 0;
+                    decimal.TryParse((string)value, out b);
                     if (a == b) {
                         matches.Add(s);
                         numOfMatches++;
@@ -167,11 +169,11 @@ namespace SeismicAnalysis {
         }
 
         public static int binarySearch(SeismicRecord[] data, object value, PropertyInfo searchProperty) {
-            uint low = 0;
-            uint high = (uint) data.Length - 1;
+            int low = 0;
+            int high = data.Length - 1;
 
             while (low <= high) {
-                uint mid = (low + high) / 2;
+                int mid = (low + high) / 2;
                 if(searchProperty.PropertyType == typeof(string)) {
                     string a =(string) searchProperty.GetValue(data[mid]);
                     string b = (string)value;
@@ -180,7 +182,7 @@ namespace SeismicAnalysis {
                     }else if (string.Compare(a, b) < 0) {
                         low = mid + 1;
                     }else {
-                        return (int)mid;
+                        return mid;
                     }
                 }else if (searchProperty.PropertyType == typeof(int)) {
                     int a = (int)searchProperty.GetValue(data[mid]);
@@ -190,17 +192,18 @@ namespace SeismicAnalysis {
                     } else if (a<b) {
                         low = mid + 1;
                     } else {
-                        return (int)mid;
+                        return mid;
                     }
                 } else if (searchProperty.PropertyType == typeof(decimal)) {
                     decimal a = (decimal)searchProperty.GetValue(data[mid]);
-                    decimal b = (decimal)value;
+                    decimal b = 0;
+                    decimal.TryParse((string)value, out b);
                     if (a > b) {
                         high = mid - 1;
                     } else if (a < b) {
                         low = mid + 1;
                     } else {
-                        return (int)mid;
+                        return mid;
                     }
                 } else if (searchProperty.PropertyType == typeof(long)) {
                     long a = (long)searchProperty.GetValue(data[mid]);
@@ -210,7 +213,17 @@ namespace SeismicAnalysis {
                     } else if (a < b) {
                         low = mid + 1;
                     } else {
-                        return (int)mid;
+                        return mid;
+                    }
+                } else if (searchProperty.PropertyType == typeof(DateTime)) {
+                    DateTime a = (DateTime)searchProperty.GetValue(data[mid]);
+                    DateTime b = (DateTime)value;
+                    if (a > b) {
+                        high = mid - 1;
+                    } else if (a < b) {
+                        low = mid + 1;
+                    } else {
+                        return mid;
                     }
                 }
 

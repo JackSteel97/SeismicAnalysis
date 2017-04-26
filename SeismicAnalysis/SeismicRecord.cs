@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SeismicAnalysis {
-    class SeismicRecord : ICloneable{
+
+    internal class SeismicRecord : ICloneable {
         private int year;
         private int month;
         private int day;
@@ -86,46 +83,57 @@ namespace SeismicAnalysis {
 
         public DateTime Date {
             get {
-                return new DateTime(this.year, this.month, this.day);               
+                return new DateTime(this.year, this.month, this.day);
             }
         }
 
         public SeismicRecord(int year, string month, int day, string time, decimal magnitude, decimal lat, decimal lon, decimal depth, string region, string id, long timestamp) {
-            this.year = year;            
+            this.year = year;
             switch (month.Trim().ToLower()) {
                 case "january":
                     this.month = 1;
                     break;
+
                 case "february":
                     this.month = 2;
                     break;
+
                 case "march":
                     this.month = 3;
                     break;
+
                 case "april":
                     this.month = 4;
                     break;
+
                 case "may":
                     this.month = 5;
                     break;
+
                 case "june":
                     this.month = 6;
                     break;
+
                 case "july":
                     this.month = 7;
                     break;
+
                 case "august":
                     this.month = 8;
                     break;
+
                 case "september":
                     this.month = 9;
                     break;
+
                 case "october":
                     this.month = 10;
                     break;
+
                 case "november":
                     this.month = 11;
                     break;
+
                 case "december":
                     this.month = 12;
                     break;

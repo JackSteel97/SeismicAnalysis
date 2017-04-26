@@ -3,30 +3,31 @@ using System.Collections;
 using System.Reflection;
 
 namespace SeismicAnalysis {
-    class Searching {
+
+    internal class Searching {
 
         public static SeismicRecord findMinimumValue(SeismicRecord[] data, PropertyInfo searchProperty) {
             if (data.Length <= 0) {
                 throw new Exception("Data cannot be empty");
             }
             SeismicRecord currentMin = data[0];
-            for(int i = 1; i < data.Length; i++) {
-                if(searchProperty.PropertyType == typeof(int)) {
+            for (int i = 1; i < data.Length; i++) {
+                if (searchProperty.PropertyType == typeof(int)) {
                     int a = (int)searchProperty.GetValue(data[i]);
                     int b = (int)searchProperty.GetValue(currentMin);
                     if (a < b) {
                         currentMin = data[i];
                     }
-                }else if (searchProperty.PropertyType == typeof(string)) {
+                } else if (searchProperty.PropertyType == typeof(string)) {
                     string a = (string)searchProperty.GetValue(data[i]);
                     string b = (string)searchProperty.GetValue(currentMin);
-                    if (string.Compare(a,b)<0) {
+                    if (string.Compare(a, b) < 0) {
                         currentMin = data[i];
                     }
-                }else if (searchProperty.PropertyType == typeof(decimal)) {
+                } else if (searchProperty.PropertyType == typeof(decimal)) {
                     decimal a = (decimal)searchProperty.GetValue(data[i]);
                     decimal b = (decimal)searchProperty.GetValue(currentMin);
-                    if (a<b) {
+                    if (a < b) {
                         currentMin = data[i];
                     }
                 } else if (searchProperty.PropertyType == typeof(long)) {
@@ -37,7 +38,7 @@ namespace SeismicAnalysis {
                     }
                 }
             }
-            return currentMin;            
+            return currentMin;
         }
 
         public static SeismicRecord findMaximumValue(SeismicRecord[] data, PropertyInfo searchProperty) {
@@ -116,22 +117,22 @@ namespace SeismicAnalysis {
         public static SeismicRecord[] linearSearchForMultiple(SeismicRecord[] data, object value, PropertyInfo searchProperty) {
             ArrayList matches = new ArrayList();
             int numOfMatches = 0;
-            foreach(SeismicRecord s in data) {
-                if(searchProperty.PropertyType == typeof(int)) {
+            foreach (SeismicRecord s in data) {
+                if (searchProperty.PropertyType == typeof(int)) {
                     int a = (int)searchProperty.GetValue(s);
                     int b = (int)value;
                     if (a == b) {
                         matches.Add(s);
-                        numOfMatches++;                        
+                        numOfMatches++;
                     }
-                }else if (searchProperty.PropertyType == typeof(string)) {
+                } else if (searchProperty.PropertyType == typeof(string)) {
                     string a = (string)searchProperty.GetValue(s);
                     string b = (string)value;
                     if (a == b) {
                         matches.Add(s);
                         numOfMatches++;
                     }
-                }else if (searchProperty.PropertyType == typeof(decimal)) {
+                } else if (searchProperty.PropertyType == typeof(decimal)) {
                     decimal a = (decimal)searchProperty.GetValue(s);
                     decimal b = 0;
                     decimal.TryParse((string)value, out b);
@@ -139,7 +140,7 @@ namespace SeismicAnalysis {
                         matches.Add(s);
                         numOfMatches++;
                     }
-                }else if (searchProperty.PropertyType == typeof(long)) {
+                } else if (searchProperty.PropertyType == typeof(long)) {
                     long a = (long)searchProperty.GetValue(s);
                     long b = (long)value;
                     if (a == b) {
@@ -158,12 +159,12 @@ namespace SeismicAnalysis {
             if (numOfMatches > 0) {
                 SeismicRecord[] output = new SeismicRecord[numOfMatches];
                 int count = 0;
-                foreach(var match in matches) {
+                foreach (var match in matches) {
                     output[count] = (SeismicRecord)match;
                     count++;
                 }
                 return output;
-            }else {
+            } else {
                 return null;
             }
         }
@@ -174,22 +175,22 @@ namespace SeismicAnalysis {
 
             while (low <= high) {
                 int mid = (low + high) / 2;
-                if(searchProperty.PropertyType == typeof(string)) {
-                    string a =(string) searchProperty.GetValue(data[mid]);
+                if (searchProperty.PropertyType == typeof(string)) {
+                    string a = (string)searchProperty.GetValue(data[mid]);
                     string b = (string)value;
-                    if(string.Compare(a,b) > 0) {
+                    if (string.Compare(a, b) > 0) {
                         high = mid - 1;
-                    }else if (string.Compare(a, b) < 0) {
+                    } else if (string.Compare(a, b) < 0) {
                         low = mid + 1;
-                    }else {
+                    } else {
                         return mid;
                     }
-                }else if (searchProperty.PropertyType == typeof(int)) {
+                } else if (searchProperty.PropertyType == typeof(int)) {
                     int a = (int)searchProperty.GetValue(data[mid]);
                     int b = (int)value;
                     if (a > b) {
                         high = mid - 1;
-                    } else if (a<b) {
+                    } else if (a < b) {
                         low = mid + 1;
                     } else {
                         return mid;
@@ -226,7 +227,6 @@ namespace SeismicAnalysis {
                         return mid;
                     }
                 }
-
             }
             return -1;
         }

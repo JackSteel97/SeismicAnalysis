@@ -45,12 +45,10 @@ namespace SeismicAnalysis {
         public static extern bool ShowWindow(System.IntPtr hWnd, int cmdShow);
 
         private static void Main(string[] args) {
-
             //maximise the window
             Process p = Process.GetCurrentProcess();
             ShowWindow(p.MainWindowHandle, 3);
             Console.SetBufferSize(9001, 9001);
-
 
             int datasetSelection = chooseDataset();
             Console.Clear();
@@ -64,13 +62,15 @@ namespace SeismicAnalysis {
                 case 1:
                     //sort
                     dataSelection = selectDataToAnalyse("sort with respect to");
-                    outputCurrentState(sortSelectedData(dataSelection, data),dataSelection);                    
+                    outputCurrentState(sortSelectedData(dataSelection, data), dataSelection);
                     break;
+
                 case 2:
                     //search
                     int searchSelection = searchChoice();
-                    handleSearch(searchSelection,data);
+                    handleSearch(searchSelection, data);
                     break;
+
                 case 3:
                     //min
                     dataSelection = selectDataToAnalyse("find a minimum of");
@@ -78,6 +78,7 @@ namespace SeismicAnalysis {
                     Console.WriteLine("Minimum value found: \n");
                     outputCurrentState(Searching.findMinimumValue(data, data[0].GetType().GetProperty(dataSelection)));
                     break;
+
                 case 4:
                     //min
                     dataSelection = selectDataToAnalyse("find a maximum of");
@@ -85,13 +86,13 @@ namespace SeismicAnalysis {
                     Console.WriteLine("Maximum value found: \n");
                     outputCurrentState(Searching.findMaximumValue(data, data[0].GetType().GetProperty(dataSelection)));
                     break;
+
                 default:
                     //sort
                     dataSelection = selectDataToAnalyse("sort with respect to");
                     sortSelectedData(dataSelection, data);
                     break;
             }
-            
 
             Console.Read();
         }
@@ -103,10 +104,11 @@ namespace SeismicAnalysis {
                     SeismicRecord result = findADate(data);
                     if (result != null) {
                         outputCurrentState(result);
-                    }else {
+                    } else {
                         Console.WriteLine("No record with this date exists.");
                     }
                     break;
+
                 case 2:
                     //search by month
                     SeismicRecord[] result2 = findAMonth(data);
@@ -116,6 +118,7 @@ namespace SeismicAnalysis {
                         Console.WriteLine("No records exist for this month.");
                     }
                     break;
+
                 case 3:
                     //custom search
                     string dataSelection = selectDataToAnalyse("search through");
@@ -123,13 +126,14 @@ namespace SeismicAnalysis {
                     switch (searchType) {
                         case 1:
                             //linear for one
-                            SeismicRecord result3 = linearSearchForOne(data,dataSelection);
-                            if(result3 != null) {
+                            SeismicRecord result3 = linearSearchForOne(data, dataSelection);
+                            if (result3 != null) {
                                 outputCurrentState(result3);
-                            }else {
+                            } else {
                                 Console.WriteLine("No result found.");
                             }
                             break;
+
                         case 2:
                             //binary search
                             SeismicRecord result4 = binarySearchForOne(data, dataSelection);
@@ -139,12 +143,13 @@ namespace SeismicAnalysis {
                                 Console.WriteLine("No result found.");
                             }
                             break;
+
                         case 3:
                             //linear for multiple
                             SeismicRecord[] result5 = linearSearchForMultiple(data, dataSelection);
-                            if(result5 != null) {
+                            if (result5 != null) {
                                 outputCurrentState(result5);
-                            }else {
+                            } else {
                                 Console.WriteLine("No results found.");
                             }
                             break;
@@ -163,11 +168,11 @@ namespace SeismicAnalysis {
             Console.Write("\nEnter your search term: ");
             string input = Console.ReadLine();
             int steps = 0;
-            Sorting.quickSort(ref data, 0, data.Length - 1, data[0].GetType().GetProperty(dataSelection),ref steps);
+            Sorting.quickSort(ref data, 0, data.Length - 1, data[0].GetType().GetProperty(dataSelection), ref steps);
             int result = Searching.binarySearch(data, input, data[0].GetType().GetProperty(dataSelection));
             if (result < 0) {
                 return null;
-            }else {
+            } else {
                 return data[result];
             }
         }
@@ -177,6 +182,7 @@ namespace SeismicAnalysis {
             string input = Console.ReadLine();
             return Searching.linearSearchForOne(data, input, data[0].GetType().GetProperty(dataSelection));
         }
+
         private static int searchTypeChoice() {
             Console.WriteLine("How do you want to search this data?");
             Console.WriteLine("\t1:\tLinear search for one record\n\t2:\tBinary search for one record\n\t3:\tLinear search for multiple records");
@@ -187,7 +193,7 @@ namespace SeismicAnalysis {
             Console.WriteLine("Enter a month name in full, or a number between 1 and 12: ");
             string input = Console.ReadLine();
             int month = getMonthNumber(input);
-            return Searching.linearSearchForMultiple(data, month, data[0].GetType().GetProperty("Month"));           
+            return Searching.linearSearchForMultiple(data, month, data[0].GetType().GetProperty("Month"));
         }
 
         private static int getMonthNumber(string input) {
@@ -229,7 +235,6 @@ namespace SeismicAnalysis {
                 Console.WriteLine("invalid input, please try again.");
                 input = Console.ReadLine();
             } while (true);
-            
         }
 
         private static SeismicRecord findADate(SeismicRecord[] data) {
@@ -240,13 +245,13 @@ namespace SeismicAnalysis {
                 int steps = 0;
                 Sorting.quickSort(ref data, 0, data.Length - 1, data[0].GetType().GetProperty("Date"), ref steps);
                 int result = Searching.binarySearch(data, target, data[0].GetType().GetProperty("Date"));
-                if(result != -1) {
+                if (result != -1) {
                     return data[result];
                 }
-            }else {
+            } else {
                 Console.WriteLine("Invalid date format.");
             }
-            return null;            
+            return null;
         }
 
         private static int searchChoice() {
@@ -255,18 +260,19 @@ namespace SeismicAnalysis {
             return getUserInput(1, 3);
         }
 
-
         private static int actionChoice() {
             Console.WriteLine("What do you want to do?");
             Console.WriteLine("\t1:\tSort the dataset\n\t2:\tSearch the dataset\n\t3:\tFind minimum values\n\t4:\tFind maximum values");
-            return getUserInput(1, 4);       
+            return getUserInput(1, 4);
         }
+
         private static SeismicRecord[] loadDataset(int selection) {
-            switch (selection) {      
+            switch (selection) {
                 case 2:
                     //dataset 2
                     populateArraysTwo();
                     return fillRecordArray();
+
                 case 3:
                     //task 9
                     //both datasets
@@ -278,6 +284,7 @@ namespace SeismicAnalysis {
                     first.CopyTo(output, 0);
                     first.CopyTo(output, first.Length);
                     return output;
+
                 default:
                     //dataset 1
                     populateArraysOne();
@@ -294,7 +301,7 @@ namespace SeismicAnalysis {
         //task 1
         private static string selectDataToAnalyse(string dataAction = "analyse") {
             //output options
-            Console.WriteLine("Select whih data you want to {0}: ",dataAction);
+            Console.WriteLine("Select whih data you want to {0}: ", dataAction);
             Console.WriteLine("\t1:\tYear\n\t2:\tMonth\n\t3:\tDay\n\t4:\tTime\n\t5:\tMagnitude\n\t6:\tLatitude\n\t7:\tLongitude\n\t8:\tDepth\n\t9:\tRegion\n\t10:\tIRIS ID\n\t11:\tTimestamp\n");
             int selection = getUserInput(1, 11);
             switch (selection) {
@@ -352,11 +359,11 @@ namespace SeismicAnalysis {
                         count++;
                     }
                     return output;
+
                 default:
                     return sortDataAscending(dataSelected, data);
             }
         }
-
 
         private static SeismicRecord[] sortDataAscending(string selector, SeismicRecord[] data) {
             PropertyInfo p = data[0].GetType().GetProperty(selector);
@@ -369,7 +376,7 @@ namespace SeismicAnalysis {
         //task 7 and 5
         private static void outputCurrentState(SeismicRecord[] data) {
             //headers
-            Console.WriteLine("\t{0,-25}\t|\t{1,-25}\t|\t{2,-25}\t|\t{3,-25}\t|\t{4,-25}\t|\t{5,-25}\t|\t{6,-25}\t|\t{7,-25}\t|\t{8,-25}\t|\t{9,-25}\t|\t{10,-25}","YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
+            Console.WriteLine("\t{0,-25}\t|\t{1,-25}\t|\t{2,-25}\t|\t{3,-25}\t|\t{4,-25}\t|\t{5,-25}\t|\t{6,-25}\t|\t{7,-25}\t|\t{8,-25}\t|\t{9,-25}\t|\t{10,-25}", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
             //data
             foreach (SeismicRecord s in data) {
                 Console.WriteLine("\t{0,-25}\t|\t{1,-25}\t|\t{2,-25}\t|\t{3,-25}\t|\t{4,-25}\t|\t{5,-25}\t|\t{6,-25}\t|\t{7,-25}\t|\t{8,-25}\t|\t{9,-25}\t|\t{10,-25}", s.Year, s.getMonth(), s.getDay(), s.Time, s.Magnitude, s.Lat, s.Lon, s.Depth, s.Region, s.ID, s.Timestamp);
@@ -395,51 +402,60 @@ namespace SeismicAnalysis {
                 Console.Write("\t{0,-25}\t|", s.getMonth());
                 Console.ResetColor();
                 if (highlightCol == "Day") {
-                    Console.BackgroundColor = ConsoleColor.Green; Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Black;
                 }
                 Console.Write("\t{0,-25}\t|", s.getDay());
                 Console.ResetColor();
                 if (highlightCol == "Time") {
-                    Console.BackgroundColor = ConsoleColor.Green; Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Black;
                 }
                 Console.Write("\t{0,-25}\t|", s.Time);
                 Console.ResetColor();
                 if (highlightCol == "Magnitude") {
-                    Console.BackgroundColor = ConsoleColor.Green; Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Black;
                 }
                 Console.Write("\t{0,-25}\t|", s.Magnitude);
                 Console.ResetColor();
                 if (highlightCol == "Lat") {
-                    Console.BackgroundColor = ConsoleColor.Green; Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Black;
                 }
                 Console.Write("\t{0,-25}\t|", s.Lat);
                 Console.ResetColor();
                 if (highlightCol == "Lon") {
-                    Console.BackgroundColor = ConsoleColor.Green; Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Black;
                 }
                 Console.Write("\t{0,-25}\t|", s.Lon);
                 Console.ResetColor();
                 if (highlightCol == "Depth") {
-                    Console.BackgroundColor = ConsoleColor.Green; Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Black;
                 }
                 Console.Write("\t{0,-25}\t|", s.Depth);
                 Console.ResetColor();
                 if (highlightCol == "Region") {
-                    Console.BackgroundColor = ConsoleColor.Green; Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Black;
                 }
                 Console.Write("\t{0,-25}\t|", s.Region);
                 Console.ResetColor();
                 if (highlightCol == "ID") {
-                    Console.BackgroundColor = ConsoleColor.Green; Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Black;
                 }
                 Console.Write("\t{0,-25}\t|", s.ID);
                 Console.ResetColor();
                 if (highlightCol == "Timestamp") {
-                    Console.BackgroundColor = ConsoleColor.Green; Console.ForegroundColor = ConsoleColor.Black;
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Black;
                 }
                 Console.Write("\t{0,-25}\n", s.Timestamp);
                 Console.ResetColor();
-               
+
                 //Console.WriteLine("\t{0,-25}\t|\t{1,-25}\t|\t{2,-25}\t|\t{3,-25}\t|\t{4,-25}\t|\t{5,-25}\t|\t{6,-25}\t|\t{7,-25}\t|\t{8,-25}\t|\t{9,-25}\t|\t{10,-25}", s.Year, s.getMonth(), s.getDay(), s.Time, s.Magnitude, s.Lat, s.Lon, s.Depth, s.Region, s.ID, s.Timestamp);
             }
         }
@@ -449,7 +465,6 @@ namespace SeismicAnalysis {
             Console.WriteLine("\t{0,-25}\t|\t{1,-25}\t|\t{2,-25}\t|\t{3,-25}\t|\t{4,-25}\t|\t{5,-25}\t|\t{6,-25}\t|\t{7,-25}\t|\t{8,-25}\t|\t{9,-25}\t|\t{10,-25}", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
             //data
             Console.WriteLine("\t{0,-25}\t|\t{1,-25}\t|\t{2,-25}\t|\t{3,-25}\t|\t{4,-25}\t|\t{5,-25}\t|\t{6,-25}\t|\t{7,-25}\t|\t{8,-25}\t|\t{9,-25}\t|\t{10,-25}", record.Year, record.getMonth(), record.getDay(), record.Time, record.Magnitude, record.Lat, record.Lon, record.Depth, record.Region, record.ID, record.Timestamp);
-            
         }
 
         private static int getUserInput(int lowerBound, int upperBound) {

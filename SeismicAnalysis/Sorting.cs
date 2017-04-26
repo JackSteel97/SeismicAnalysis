@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
 namespace SeismicAnalysis {
-    class Sorting {
+
+    internal class Sorting {
 
         /// <summary>
         /// Quick sort an array of SeismicRecord based on a particular property
@@ -19,7 +15,7 @@ namespace SeismicAnalysis {
             if (low < high) {
                 steps++;
                 int p = partition(ref data, low, high, sortProperty);
-                quickSort(ref data, low, p - 1, sortProperty,ref steps);
+                quickSort(ref data, low, p - 1, sortProperty, ref steps);
                 quickSort(ref data, p + 1, high, sortProperty, ref steps);
             }
         }

@@ -455,6 +455,7 @@ namespace SeismicAnalysis {
                 }
                 Console.Write("\t{0,-25}\n", s.Timestamp);
                 Console.ResetColor();
+              
             }
         }
 

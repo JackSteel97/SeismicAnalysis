@@ -48,53 +48,61 @@ namespace SeismicAnalysis {
             //maximise the window
             Process p = Process.GetCurrentProcess();
             ShowWindow(p.MainWindowHandle, 3);
-            Console.SetBufferSize(9001, 9001);
+            Console.SetBufferSize(9001, 1920);
 
-            int datasetSelection = chooseDataset();
-            Console.Clear();
+            while(true) {
+                
+                int datasetSelection = chooseDataset();
+                Console.Clear();
 
-            SeismicRecord[] data = loadDataset(datasetSelection);
-            
-            int actionSelection = actionChoice();
-            Console.Clear();
-            string dataSelection = "";
-            switch (actionSelection) {
-                case 1:
-                    //sort
-                    dataSelection = selectDataToAnalyse("sort with respect to");
-                    outputCurrentState(sortSelectedData(dataSelection, data), dataSelection);
-                    break;
+                SeismicRecord[] data = loadDataset(datasetSelection);
+                
+                int actionSelection = actionChoice();
+                Console.Clear();
+                string dataSelection = "";
+                switch(actionSelection) {
+                    case 1:
+                        //sort
+                        dataSelection = selectDataToAnalyse("sort with respect to");
+                        outputCurrentState(sortSelectedData(dataSelection, data), dataSelection);
+                        break;
 
-                case 2:
-                    //search
-                    int searchSelection = searchChoice();
-                    handleSearch(searchSelection, data);
-                    break;
+                    case 2:
+                        //search
+                        int searchSelection = searchChoice();
+                        handleSearch(searchSelection, data);
+                        break;
 
-                case 3:
-                    //min
-                    dataSelection = selectDataToAnalyse("find a minimum of");
-                    Console.Clear();
-                    Console.WriteLine("Minimum value found: \n");
-                    outputCurrentState(Searching.findMinimumValue(data, data[0].GetType().GetProperty(dataSelection)));
-                    break;
+                    case 3:
+                        //min
+                        dataSelection = selectDataToAnalyse("find a minimum of");
+                        Console.Clear();
+                        Console.WriteLine("Minimum value found: \n");
+                        outputCurrentState(Searching.findMinimumValue(data, data[0].GetType().GetProperty(dataSelection)));
+                        break;
 
-                case 4:
-                    //min
-                    dataSelection = selectDataToAnalyse("find a maximum of");
-                    Console.Clear();
-                    Console.WriteLine("Maximum value found: \n");
-                    outputCurrentState(Searching.findMaximumValue(data, data[0].GetType().GetProperty(dataSelection)));
-                    break;
+                    case 4:
+                        //min
+                        dataSelection = selectDataToAnalyse("find a maximum of");
+                        Console.Clear();
+                        Console.WriteLine("Maximum value found: \n");
+                        outputCurrentState(Searching.findMaximumValue(data, data[0].GetType().GetProperty(dataSelection)));
+                        break;
 
-                default:
-                    //sort
-                    dataSelection = selectDataToAnalyse("sort with respect to");
-                    sortSelectedData(dataSelection, data);
-                    break;
+                    default:
+                        //sort
+                        dataSelection = selectDataToAnalyse("sort with respect to");
+                        sortSelectedData(dataSelection, data);
+                        break;
+                }
+                Console.WriteLine("\n\nPress enter to start again...");
+                Console.ReadLine();
+                Console.Clear();
             }
 
-            Console.Read();
+            
+
+           
         }
 
         private static void handleSearch(int selection, SeismicRecord[] data) {
@@ -348,15 +356,16 @@ namespace SeismicAnalysis {
 
         //task 2
         private static SeismicRecord[] sortSelectedData(string dataSelected, SeismicRecord[] data) {
+            Console.Clear();
             Console.WriteLine("Which sorting algorithm do you want to use?");
-            Console.WriteLine("\t1:\tQuick Sort\n\t2:\tMerge Sort\n\t3:\tInsertion Sort\n\t4:\tHeap Sort\n");
-            int algoSelection = getUserInput(1, 4);
+            Console.WriteLine("\t1:\tQuick Sort\n\t2:\tMerge Sort\n\t3:\tInsertion Sort\n\t4:\tHeap Sort\n\t5:\tBubble Sort\n");
+            int algoSelection = getUserInput(1, 5);
 
             Console.WriteLine("\tHow do you want to sort this data?");
             Console.WriteLine("\t\t1:\tAscending order\n\t\t2:\tDescending order\n");
             int selection = getUserInput(1, 2);
 
-
+           
             SeismicRecord[] sortedData = new SeismicRecord[data.Length];
             switch(algoSelection) {
                 case 1:
@@ -370,6 +379,9 @@ namespace SeismicAnalysis {
                     break;
                 case 4:
                     sortedData = heapSortData(data, dataSelected);
+                    break;
+                case 5:
+                    sortedData = bubbleSortData(data, dataSelected);
                     break;
             }
 
@@ -394,30 +406,36 @@ namespace SeismicAnalysis {
         private static SeismicRecord[] mergeSortData (SeismicRecord[] data, string selector) {
             PropertyInfo p = data[0].GetType().GetProperty(selector);
             int steps = 0;
+
             DateTime start = DateTime.Now;
             data = Sorting.mergeSort(data,p, ref steps);
             DateTime end = DateTime.Now;
-            Console.WriteLine("\nSorted {0} elements in {1} steps using merge sort\nTime elapsed: {2}ms", data.Length, steps,(end-start).TotalMilliseconds);
+
+            Console.WriteLine("\n\t\t\tSorted {0:n0} elements in {1:n0} steps using merge sort\n\t\t\tTime elapsed: {2:n2}ms", data.Length, steps,(end-start).TotalMilliseconds);
             return data;
         }
 
         private static SeismicRecord[] quickSortData(SeismicRecord[] data, string selector) {
             PropertyInfo p = data[0].GetType().GetProperty(selector);
             int steps = 0;
+
             DateTime start = DateTime.Now;
             Sorting.quickSort(ref data, 0, data.Length - 1, p, ref steps);
             DateTime end = DateTime.Now;
-            Console.WriteLine("\nSorted {0} elements in {1} steps using quick sort\nTime elapsed: {2}ms", data.Length, steps, (end - start).TotalMilliseconds);
+
+            Console.WriteLine("\n\t\t\tSorted {0:n0} elements in {1:n0} steps using quick sort\n\t\t\tTime elapsed: {2:n2}ms", data.Length, steps, (end - start).TotalMilliseconds);
             return data;
         }
 
         private static SeismicRecord[] insertionSortData(SeismicRecord[] data, string selector) {
             PropertyInfo p = data[0].GetType().GetProperty(selector);
             int steps = 0;
+
             DateTime start = DateTime.Now;
             data = Sorting.insertionSort(data, p, ref steps);
             DateTime end = DateTime.Now;
-            Console.WriteLine("\nSorted {0} elements in {1} steps using insertion sort\nTime elapsed: {2}ms", data.Length, steps, (end - start).TotalMilliseconds);
+
+            Console.WriteLine("\n\t\t\tSorted {0:n0} elements in {1:n0} steps using insertion sort\n\t\t\tTime elapsed: {2:n2}ms", data.Length, steps, (end - start).TotalMilliseconds);
             return data;
         }
 
@@ -429,10 +447,22 @@ namespace SeismicAnalysis {
             Sorting.heapSort(ref data, p, ref steps);
             DateTime end = DateTime.Now;
             
-            Console.WriteLine("\nSorted {0} elements in {1} steps using heap sort\nTime elapsed: {2}ms", data.Length, steps, (end - start).TotalMilliseconds);
+            Console.WriteLine("\n\t\t\tSorted {0:n0} elements in {1:n0} steps using heap sort\n\t\t\tTime elapsed: {2:n2}ms", data.Length, steps, (end - start).TotalMilliseconds);
             return data;
         }
 
+        private static SeismicRecord[] bubbleSortData(SeismicRecord[] data,string selector) {
+            PropertyInfo p = data[0].GetType().GetProperty(selector);
+            int steps = 0;
+
+            DateTime start = DateTime.Now;
+            data = Sorting.bubbleSort(data, p, ref steps);
+            DateTime end = DateTime.Now;
+
+            Console.WriteLine("\n\t\t\tSorted {0:n0} elements in {1:n0} steps using bubble sort\n\t\t\tTime elapsed: {2:n2}ms", data.Length, steps, (end - start).TotalMilliseconds);
+            return data;
+        }
+ 
         //task 7 and 5
         private static void outputCurrentState(SeismicRecord[] data) {
             //headers

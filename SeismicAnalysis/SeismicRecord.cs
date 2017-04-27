@@ -2,7 +2,11 @@
 
 namespace SeismicAnalysis {
 
+    /// <summary>
+    /// Class to represent and store data from IRIS repository
+    /// </summary>
     internal class SeismicRecord : ICloneable {
+        
         private int year;
         private int month;
         private int day;
@@ -89,6 +93,7 @@ namespace SeismicAnalysis {
 
         public SeismicRecord(int year, string month, int day, string time, decimal magnitude, decimal lat, decimal lon, decimal depth, string region, string id, long timestamp) {
             this.year = year;
+            //convert month string to integer for easy sorting
             switch (month.Trim().ToLower()) {
                 case "january":
                     this.month = 1;
@@ -149,11 +154,19 @@ namespace SeismicAnalysis {
             this.timestamp = timestamp;
         }
 
+        /// <summary>
+        /// Get month string
+        /// </summary>
+        /// <returns>Full name of month</returns>
         public string getMonth() {
             DateTime d = new DateTime(year, month, day);
             return d.ToString("MMMM");
         }
 
+        /// <summary>
+        /// Get day number
+        /// </summary>
+        /// <returns>Two digit formatted date</returns>
         public string getDay() {
             DateTime d = new DateTime(year, month, day);
             return d.ToString("dd");

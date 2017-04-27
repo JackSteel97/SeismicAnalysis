@@ -76,8 +76,22 @@ namespace SeismicAnalysis {
             return currentMax;
         }
 
-        public static SeismicRecord linearSearchForOne(SeismicRecord[] data, object value, PropertyInfo searchProperty) {
+        /// <summary>
+        /// Linear search
+        /// Space Complexity: O(1)
+        /// Time Complexity:
+        ///     Best: O(1)
+        ///  Average: O(n)
+        ///    Worst: O(n)
+        /// </summary>
+        /// <param name="data">Data to search through</param>
+        /// <param name="value">Value to search for</param>
+        /// <param name="searchProperty">Property to search</param>
+        /// <param name="steps">reference to step counter</param>
+        /// <returns>A single SeismicRecord containing the search value, or, null if the value cannot be found</returns>
+        public static SeismicRecord linearSearchForOne (SeismicRecord[] data, object value, PropertyInfo searchProperty, ref int steps) {
             foreach (SeismicRecord s in data) {
+                steps++;
                 if (searchProperty.PropertyType == typeof(int)) {
                     int a = (int)searchProperty.GetValue(s);
                     int b = (int)value;
@@ -105,7 +119,8 @@ namespace SeismicAnalysis {
                     }
                 } else if (searchProperty.PropertyType == typeof(DateTime)) {
                     DateTime a = (DateTime)searchProperty.GetValue(s);
-                    DateTime b = (DateTime)value;
+                    DateTime b = new DateTime();
+                    DateTime.TryParse(value.ToString(), out b);
                     if (a == b) {
                         return s;
                     }
@@ -149,7 +164,8 @@ namespace SeismicAnalysis {
                     }
                 } else if (searchProperty.PropertyType == typeof(DateTime)) {
                     DateTime a = (DateTime)searchProperty.GetValue(s);
-                    DateTime b = (DateTime)value;
+                    DateTime b = new DateTime();
+                    DateTime.TryParse(value.ToString(), out b);
                     if (a == b) {
                         matches.Add(s);
                         numOfMatches++;
@@ -169,11 +185,24 @@ namespace SeismicAnalysis {
             }
         }
 
-        public static int binarySearch(SeismicRecord[] data, object value, PropertyInfo searchProperty) {
+        /// <summary>
+        /// Binary search for single value
+        /// Space complexity: O(1)
+        /// Time complexity:
+        ///     Best: O(1)
+        ///  Average: O(log(n))
+        ///    Worst: O(log(n))
+        /// </summary>
+        /// <param name="data">Data to search through</param>
+        /// <param name="value">Value to search for</param>
+        /// <param name="searchProperty">Property to search</param>
+        /// <returns>An index integer to the searched value, or, -1 if the value cannot be found</returns>
+        public static int binarySearch(SeismicRecord[] data, object value, PropertyInfo searchProperty, ref int steps) {
             int low = 0;
             int high = data.Length - 1;
 
             while (low <= high) {
+                steps++;
                 int mid = (low + high) / 2;
                 if (searchProperty.PropertyType == typeof(string)) {
                     string a = (string)searchProperty.GetValue(data[mid]);
@@ -218,7 +247,9 @@ namespace SeismicAnalysis {
                     }
                 } else if (searchProperty.PropertyType == typeof(DateTime)) {
                     DateTime a = (DateTime)searchProperty.GetValue(data[mid]);
-                    DateTime b = (DateTime)value;
+                    DateTime b = new DateTime();
+                    DateTime.TryParse(value.ToString(), out b);
+                   
                     if (a > b) {
                         high = mid - 1;
                     } else if (a < b) {

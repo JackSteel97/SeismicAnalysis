@@ -54,7 +54,7 @@ namespace SeismicAnalysis {
             Console.Clear();
 
             SeismicRecord[] data = loadDataset(datasetSelection);
-
+            
             int actionSelection = actionChoice();
             Console.Clear();
             string dataSelection = "";
@@ -168,8 +168,11 @@ namespace SeismicAnalysis {
             Console.Write("\nEnter your search term: ");
             string input = Console.ReadLine();
             int steps = 0;
+            DateTime start = DateTime.Now; 
             Sorting.quickSort(ref data, 0, data.Length - 1, data[0].GetType().GetProperty(dataSelection), ref steps);
-            int result = Searching.binarySearch(data, input, data[0].GetType().GetProperty(dataSelection));
+            int result = Searching.binarySearch(data, input, data[0].GetType().GetProperty(dataSelection),ref steps);
+            DateTime end = DateTime.Now;
+            Console.WriteLine("\nSorted and searched {0} elements in {1} steps using binary search\nTime elapsed: {2}ms", data.Length, steps, (end - start).TotalMilliseconds);
             if (result < 0) {
                 return null;
             } else {
@@ -180,7 +183,12 @@ namespace SeismicAnalysis {
         private static SeismicRecord linearSearchForOne(SeismicRecord[] data, string dataSelection) {
             Console.Write("\nEnter your search term: ");
             string input = Console.ReadLine();
-            return Searching.linearSearchForOne(data, input, data[0].GetType().GetProperty(dataSelection));
+            int steps = 0;
+            DateTime start = DateTime.Now;
+            SeismicRecord result = Searching.linearSearchForOne(data, input, data[0].GetType().GetProperty(dataSelection),ref steps);
+            DateTime end = DateTime.Now;
+            Console.WriteLine("\nSearched {0} elements in {1} steps using linear search\nTime elapsed: {2}ms", data.Length, steps, (end - start).TotalMilliseconds);
+            return result;
         }
 
         private static int searchTypeChoice() {
@@ -242,12 +250,7 @@ namespace SeismicAnalysis {
             string input = Console.ReadLine();
             DateTime target = new DateTime();
             if (DateTime.TryParse(input, out target)) {
-                int steps = 0;
-                Sorting.quickSort(ref data, 0, data.Length - 1, data[0].GetType().GetProperty("Date"), ref steps);
-                int result = Searching.binarySearch(data, target, data[0].GetType().GetProperty("Date"));
-                if (result != -1) {
-                    return data[result];
-                }
+                return binarySearchForOne(data, "Date");
             } else {
                 Console.WriteLine("Invalid date format.");
             }
@@ -345,31 +348,88 @@ namespace SeismicAnalysis {
 
         //task 2
         private static SeismicRecord[] sortSelectedData(string dataSelected, SeismicRecord[] data) {
-            Console.WriteLine("How do you want to sort this data?");
-            Console.WriteLine("\t1:\tAscending order\n\t2:\tDescending order\n");
+            Console.WriteLine("Which sorting algorithm do you want to use?");
+            Console.WriteLine("\t1:\tQuick Sort\n\t2:\tMerge Sort\n\t3:\tInsertion Sort\n\t4:\tHeap Sort\n");
+            int algoSelection = getUserInput(1, 4);
+
+            Console.WriteLine("\tHow do you want to sort this data?");
+            Console.WriteLine("\t\t1:\tAscending order\n\t\t2:\tDescending order\n");
             int selection = getUserInput(1, 2);
-            switch (selection) {
+
+
+            SeismicRecord[] sortedData = new SeismicRecord[data.Length];
+            switch(algoSelection) {
+                case 1:
+                    sortedData = quickSortData(data, dataSelected);
+                    break;
                 case 2:
-                    SeismicRecord[] temp = sortDataAscending(dataSelected, data);
+                    sortedData = mergeSortData(data, dataSelected);
+                    break;
+                case 3:
+                    sortedData = insertionSortData(data, dataSelected);
+                    break;
+                case 4:
+                    sortedData = heapSortData(data, dataSelected);
+                    break;
+            }
+
+            
+           
+            switch (selection) {
+                case 2:               
                     //reverse the ascending order array to get a decending order one
-                    SeismicRecord[] output = new SeismicRecord[temp.Length];
+                    SeismicRecord[] output = new SeismicRecord[sortedData.Length];
                     int count = 0;
-                    for (int i = temp.Length - 1; i >= 0; i--) {
-                        output[count] = (SeismicRecord)temp[i].Clone();
+                    for (int i = sortedData.Length - 1; i >= 0; i--) {
+                        output[count] = (SeismicRecord)sortedData[i].Clone();
                         count++;
                     }
                     return output;
 
                 default:
-                    return sortDataAscending(dataSelected, data);
+                    return sortedData;
             }
         }
 
-        private static SeismicRecord[] sortDataAscending(string selector, SeismicRecord[] data) {
+        private static SeismicRecord[] mergeSortData (SeismicRecord[] data, string selector) {
             PropertyInfo p = data[0].GetType().GetProperty(selector);
             int steps = 0;
+            DateTime start = DateTime.Now;
+            data = Sorting.mergeSort(data,p, ref steps);
+            DateTime end = DateTime.Now;
+            Console.WriteLine("\nSorted {0} elements in {1} steps using merge sort\nTime elapsed: {2}ms", data.Length, steps,(end-start).TotalMilliseconds);
+            return data;
+        }
+
+        private static SeismicRecord[] quickSortData(SeismicRecord[] data, string selector) {
+            PropertyInfo p = data[0].GetType().GetProperty(selector);
+            int steps = 0;
+            DateTime start = DateTime.Now;
             Sorting.quickSort(ref data, 0, data.Length - 1, p, ref steps);
-            Console.WriteLine("Sorted in {0} steps using quick sort", steps);
+            DateTime end = DateTime.Now;
+            Console.WriteLine("\nSorted {0} elements in {1} steps using quick sort\nTime elapsed: {2}ms", data.Length, steps, (end - start).TotalMilliseconds);
+            return data;
+        }
+
+        private static SeismicRecord[] insertionSortData(SeismicRecord[] data, string selector) {
+            PropertyInfo p = data[0].GetType().GetProperty(selector);
+            int steps = 0;
+            DateTime start = DateTime.Now;
+            data = Sorting.insertionSort(data, p, ref steps);
+            DateTime end = DateTime.Now;
+            Console.WriteLine("\nSorted {0} elements in {1} steps using insertion sort\nTime elapsed: {2}ms", data.Length, steps, (end - start).TotalMilliseconds);
+            return data;
+        }
+
+        private static SeismicRecord[] heapSortData(SeismicRecord[] data, string selector) {
+            PropertyInfo p = data[0].GetType().GetProperty(selector);
+            int steps = 0;        
+
+            DateTime start = DateTime.Now;
+            Sorting.heapSort(ref data, p, ref steps);
+            DateTime end = DateTime.Now;
+            
+            Console.WriteLine("\nSorted {0} elements in {1} steps using heap sort\nTime elapsed: {2}ms", data.Length, steps, (end - start).TotalMilliseconds);
             return data;
         }
 

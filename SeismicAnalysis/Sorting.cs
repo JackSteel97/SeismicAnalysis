@@ -6,6 +6,96 @@ namespace SeismicAnalysis {
 
     internal class Sorting {
 
+        /// <summary>
+        /// Bubble sorts data
+        /// Space complexity: O(1)
+        /// Time complexity: 
+        ///     Best: O(n)
+        ///  Average: O(n^2)
+        ///    Worst: O(n^2)
+        /// </summary>
+        /// <param name="data">Data to sort</param>
+        /// <param name="sortProperty">Property to sort by</param>
+        /// <param name="steps">reference to step counter</param>
+        /// <returns>Sorted array</returns>
+        public static SeismicRecord[] bubbleSort(SeismicRecord[] data, PropertyInfo sortProperty, ref int steps) {
+            bool isSorted;
+            for(int i = 0; i < data.Length - 1; i++) {
+                isSorted = true;
+                for(int j = 0; j<data.Length-1-i; j++) {
+                    steps++;
+                    if(sortProperty.PropertyType == typeof(int)) {
+                        int a = (int)sortProperty.GetValue(data[j + 1]);
+                        int b = (int)sortProperty.GetValue(data[j]);
+                        if(a < b) {
+                            //swap
+                            SeismicRecord temp = data[j];
+                            data[j] = data[j + 1];
+                            data[j + 1] = temp;
+                            isSorted = false;
+                        }
+                    }else if(sortProperty.PropertyType == typeof(string)) {
+                        string a = (string)sortProperty.GetValue(data[j + 1]);
+                        string b = (string)sortProperty.GetValue(data[j]);
+                        if(string.Compare(a,b)<0) {
+                            //swap
+                            SeismicRecord temp = data[j];
+                            data[j] = data[j + 1];
+                            data[j + 1] = temp;
+                            isSorted = false;
+                        }
+                    }else if(sortProperty.PropertyType == typeof(decimal)) {
+                        decimal a = (decimal)sortProperty.GetValue(data[j + 1]);
+                        decimal b = (decimal)sortProperty.GetValue(data[j]);
+                        if(a < b) {
+                            //swap
+                            SeismicRecord temp = data[j];
+                            data[j] = data[j + 1];
+                            data[j + 1] = temp;
+                            isSorted = false;
+                        }
+                    }else if(sortProperty.PropertyType == typeof(long)) {
+                        long a = (long)sortProperty.GetValue(data[j + 1]);
+                        long b = (long)sortProperty.GetValue(data[j]);
+                        if(a < b) {
+                            //swap
+                            SeismicRecord temp = data[j];
+                            data[j] = data[j + 1];
+                            data[j + 1] = temp;
+                            isSorted = false;
+                        }
+                    }else if(sortProperty.PropertyType == typeof(DateTime)) {
+                        DateTime a = (DateTime)sortProperty.GetValue(data[j + 1]);
+                        DateTime b = (DateTime)sortProperty.GetValue(data[j]);
+                        if(a < b) {
+                            //swap
+                            SeismicRecord temp = data[j];
+                            data[j] = data[j + 1];
+                            data[j + 1] = temp;
+                            isSorted = false;
+                        }
+                    }
+                }
+                if(isSorted) {
+                    break;
+                }
+                
+            }
+            return data;
+        }
+
+
+        /// <summary>
+        /// Heap sort the data
+        /// Space Complexity: O(1)
+        /// Time Complexity:
+        ///     Best: O(nlog(n))
+        ///  Average: O(nlog(n))
+        ///    Worst: O(nlog(n))
+        /// </summary>
+        /// <param name="data">Data to be sorted</param>
+        /// <param name="sortProperty">Property to sort by</param>
+        /// <param name="steps">reference to step counter</param>
         public static void heapSort (ref SeismicRecord[] data, PropertyInfo sortProperty, ref int steps) {
             //build max heap
             int heapSize = data.Length - 1;
@@ -25,6 +115,14 @@ namespace SeismicAnalysis {
             }
         }
 
+        /// <summary>
+        /// Sub routine for Heap sort. Arranges the data into a heap structure
+        /// </summary>
+        /// <param name="data">Data array</param>
+        /// <param name="heapSize">number of items in the heap</param>
+        /// <param name="index">halfway point index</param>
+        /// <param name="sortProperty">property to sort by</param>
+        /// <param name="steps">reference to step counter</param>
         private static void MaxHeapify (ref SeismicRecord[] data, int heapSize, int index, PropertyInfo sortProperty, ref int steps) {
             int left = (2 * (index + 1)) - 1;
             int right = 2 * (index + 1);

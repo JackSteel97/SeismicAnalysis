@@ -4,36 +4,44 @@ using System.Reflection;
 
 namespace SeismicAnalysis {
 
+    /// <summary>
+    /// Class containing static methods for searching
+    /// </summary>
     internal class Searching {
 
-        public static SeismicRecord findMinimumValue(SeismicRecord[] data, PropertyInfo searchProperty) {
-            if (data.Length <= 0) {
+        public static SeismicRecord findMinimumValue (SeismicRecord[] data, PropertyInfo searchProperty) {
+            //validate data first
+            if(data.Length <= 0) {
                 throw new Exception("Data cannot be empty");
             }
+            //lowest found so far variable
             SeismicRecord currentMin = data[0];
-            for (int i = 1; i < data.Length; i++) {
-                if (searchProperty.PropertyType == typeof(int)) {
+            //iterate through entire array
+            for(int i = 1; i < data.Length; i++) {
+                if(searchProperty.PropertyType == typeof(int)) {
                     int a = (int)searchProperty.GetValue(data[i]);
                     int b = (int)searchProperty.GetValue(currentMin);
-                    if (a < b) {
+                    //is this item smaller than the current min?
+                    if(a < b) {
+                        //yes, set it as the new current min
                         currentMin = data[i];
                     }
-                } else if (searchProperty.PropertyType == typeof(string)) {
+                } else if(searchProperty.PropertyType == typeof(string)) {
                     string a = (string)searchProperty.GetValue(data[i]);
                     string b = (string)searchProperty.GetValue(currentMin);
-                    if (string.Compare(a, b) < 0) {
+                    if(string.Compare(a, b) < 0) {
                         currentMin = data[i];
                     }
-                } else if (searchProperty.PropertyType == typeof(decimal)) {
+                } else if(searchProperty.PropertyType == typeof(decimal)) {
                     decimal a = (decimal)searchProperty.GetValue(data[i]);
                     decimal b = (decimal)searchProperty.GetValue(currentMin);
-                    if (a < b) {
+                    if(a < b) {
                         currentMin = data[i];
                     }
-                } else if (searchProperty.PropertyType == typeof(long)) {
+                } else if(searchProperty.PropertyType == typeof(long)) {
                     long a = (long)searchProperty.GetValue(data[i]);
                     long b = (long)searchProperty.GetValue(currentMin);
-                    if (a < b) {
+                    if(a < b) {
                         currentMin = data[i];
                     }
                 }
@@ -41,34 +49,39 @@ namespace SeismicAnalysis {
             return currentMin;
         }
 
-        public static SeismicRecord findMaximumValue(SeismicRecord[] data, PropertyInfo searchProperty) {
-            if (data.Length <= 0) {
+        public static SeismicRecord findMaximumValue (SeismicRecord[] data, PropertyInfo searchProperty) {
+            //validate data first
+            if(data.Length <= 0) {
                 throw new Exception("Data cannot be empty");
             }
+            //highest found so far variable
             SeismicRecord currentMax = data[0];
-            for (int i = 1; i < data.Length; i++) {
-                if (searchProperty.PropertyType == typeof(int)) {
+            //iterate through entire array
+            for(int i = 1; i < data.Length; i++) {
+                if(searchProperty.PropertyType == typeof(int)) {
                     int a = (int)searchProperty.GetValue(data[i]);
                     int b = (int)searchProperty.GetValue(currentMax);
-                    if (a > b) {
+                    //is this item bigger than the current max?
+                    if(a > b) {
+                        //yes, set it as the new current max
                         currentMax = data[i];
                     }
-                } else if (searchProperty.PropertyType == typeof(string)) {
+                } else if(searchProperty.PropertyType == typeof(string)) {
                     string a = (string)searchProperty.GetValue(data[i]);
                     string b = (string)searchProperty.GetValue(currentMax);
-                    if (string.Compare(a, b) > 0) {
+                    if(string.Compare(a, b) > 0) {
                         currentMax = data[i];
                     }
-                } else if (searchProperty.PropertyType == typeof(decimal)) {
+                } else if(searchProperty.PropertyType == typeof(decimal)) {
                     decimal a = (decimal)searchProperty.GetValue(data[i]);
                     decimal b = (decimal)searchProperty.GetValue(currentMax);
-                    if (a > b) {
+                    if(a > b) {
                         currentMax = data[i];
                     }
-                } else if (searchProperty.PropertyType == typeof(long)) {
+                } else if(searchProperty.PropertyType == typeof(long)) {
                     long a = (long)searchProperty.GetValue(data[i]);
                     long b = (long)searchProperty.GetValue(currentMax);
-                    if (a > b) {
+                    if(a > b) {
                         currentMax = data[i];
                     }
                 }
@@ -90,97 +103,113 @@ namespace SeismicAnalysis {
         /// <param name="steps">reference to step counter</param>
         /// <returns>A single SeismicRecord containing the search value, or, null if the value cannot be found</returns>
         public static SeismicRecord linearSearchForOne (SeismicRecord[] data, object value, PropertyInfo searchProperty, ref int steps) {
-            foreach (SeismicRecord s in data) {
+            //iterate through the array
+            foreach(SeismicRecord s in data) {
                 steps++;
-                if (searchProperty.PropertyType == typeof(int)) {
+                if(searchProperty.PropertyType == typeof(int)) {
                     int a = (int)searchProperty.GetValue(s);
-                    int b = (int)value;
-                    if (a == b) {
+                    int b = Convert.ToInt32(value);
+                    if(a == b) {
+                        //match found, return it
                         return s;
                     }
-                } else if (searchProperty.PropertyType == typeof(string)) {
+                } else if(searchProperty.PropertyType == typeof(string)) {
                     string a = (string)searchProperty.GetValue(s);
                     string b = (string)value;
-                    if (a == b) {
+                    if(a == b) {
                         return s;
                     }
-                } else if (searchProperty.PropertyType == typeof(decimal)) {
+                } else if(searchProperty.PropertyType == typeof(decimal)) {
                     decimal a = (decimal)searchProperty.GetValue(s);
                     decimal b = 0;
                     decimal.TryParse((string)value, out b);
-                    if (a == b) {
+                    if(a == b) {
                         return s;
                     }
-                } else if (searchProperty.PropertyType == typeof(long)) {
+                } else if(searchProperty.PropertyType == typeof(long)) {
                     long a = (long)searchProperty.GetValue(s);
-                    long b = (long)value;
-                    if (a == b) {
+                    long b = Convert.ToInt64(value);
+                    if(a == b) {
                         return s;
                     }
-                } else if (searchProperty.PropertyType == typeof(DateTime)) {
+                } else if(searchProperty.PropertyType == typeof(DateTime)) {
                     DateTime a = (DateTime)searchProperty.GetValue(s);
                     DateTime b = new DateTime();
                     DateTime.TryParse(value.ToString(), out b);
-                    if (a == b) {
+                    if(a == b) {
                         return s;
                     }
                 }
             }
+            //entire array searched and no match found, return null
             return null;
         }
 
-        public static SeismicRecord[] linearSearchForMultiple(SeismicRecord[] data, object value, PropertyInfo searchProperty) {
+        /// <summary>
+        /// Search through the entire array and return ALL matches
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="value"></param>
+        /// <param name="searchProperty"></param>
+        /// <returns></returns>
+        public static SeismicRecord[] linearSearchForMultiple (SeismicRecord[] data, object value, PropertyInfo searchProperty) {
+            //declare array list to store an as-yet unknown number of matches
             ArrayList matches = new ArrayList();
             int numOfMatches = 0;
-            foreach (SeismicRecord s in data) {
-                if (searchProperty.PropertyType == typeof(int)) {
+
+            foreach(SeismicRecord s in data) {
+                if(searchProperty.PropertyType == typeof(int)) {
                     int a = (int)searchProperty.GetValue(s);
-                    int b = (int)value;
-                    if (a == b) {
+                    int b = Convert.ToInt32(value);
+                    if(a == b) {
+                        //match found, add to arraylist
                         matches.Add(s);
                         numOfMatches++;
                     }
-                } else if (searchProperty.PropertyType == typeof(string)) {
+                } else if(searchProperty.PropertyType == typeof(string)) {
                     string a = (string)searchProperty.GetValue(s);
                     string b = (string)value;
-                    if (a == b) {
+                    if(a == b) {
                         matches.Add(s);
                         numOfMatches++;
                     }
-                } else if (searchProperty.PropertyType == typeof(decimal)) {
+                } else if(searchProperty.PropertyType == typeof(decimal)) {
                     decimal a = (decimal)searchProperty.GetValue(s);
                     decimal b = 0;
                     decimal.TryParse((string)value, out b);
-                    if (a == b) {
+                    if(a == b) {
                         matches.Add(s);
                         numOfMatches++;
                     }
-                } else if (searchProperty.PropertyType == typeof(long)) {
+                } else if(searchProperty.PropertyType == typeof(long)) {
                     long a = (long)searchProperty.GetValue(s);
                     long b = (long)value;
-                    if (a == b) {
+                    if(a == b) {
                         matches.Add(s);
                         numOfMatches++;
                     }
-                } else if (searchProperty.PropertyType == typeof(DateTime)) {
+                } else if(searchProperty.PropertyType == typeof(DateTime)) {
                     DateTime a = (DateTime)searchProperty.GetValue(s);
                     DateTime b = new DateTime();
                     DateTime.TryParse(value.ToString(), out b);
-                    if (a == b) {
+                    if(a == b) {
                         matches.Add(s);
                         numOfMatches++;
                     }
                 }
             }
-            if (numOfMatches > 0) {
+            //convert arraylist
+            if(numOfMatches > 0) {
+                //convert arraylist to array to return
                 SeismicRecord[] output = new SeismicRecord[numOfMatches];
                 int count = 0;
-                foreach (var match in matches) {
+                foreach(var match in matches) {
                     output[count] = (SeismicRecord)match;
                     count++;
                 }
                 return output;
             } else {
+                //no matches, return null
                 return null;
             }
         }
@@ -197,62 +226,65 @@ namespace SeismicAnalysis {
         /// <param name="value">Value to search for</param>
         /// <param name="searchProperty">Property to search</param>
         /// <returns>An index integer to the searched value, or, -1 if the value cannot be found</returns>
-        public static int binarySearch(SeismicRecord[] data, object value, PropertyInfo searchProperty, ref int steps) {
+        public static int binarySearch (SeismicRecord[] data, object value, PropertyInfo searchProperty, ref int steps) {
             int low = 0;
             int high = data.Length - 1;
-
-            while (low <= high) {
+            //repeat until found or all options searched
+            while(low <= high) {
                 steps++;
+                //pick the midpoint
                 int mid = (low + high) / 2;
-                if (searchProperty.PropertyType == typeof(string)) {
+                if(searchProperty.PropertyType == typeof(string)) {
                     string a = (string)searchProperty.GetValue(data[mid]);
                     string b = (string)value;
-                    if (string.Compare(a, b) > 0) {
+                    //determine which half of the list to discard
+                    if(string.Compare(a, b) > 0) {
                         high = mid - 1;
-                    } else if (string.Compare(a, b) < 0) {
+                    } else if(string.Compare(a, b) < 0) {
                         low = mid + 1;
                     } else {
+                        //found, return the index
                         return mid;
                     }
-                } else if (searchProperty.PropertyType == typeof(int)) {
+                } else if(searchProperty.PropertyType == typeof(int)) {
                     int a = (int)searchProperty.GetValue(data[mid]);
                     int b = (int)value;
-                    if (a > b) {
+                    if(a > b) {
                         high = mid - 1;
-                    } else if (a < b) {
+                    } else if(a < b) {
                         low = mid + 1;
                     } else {
                         return mid;
                     }
-                } else if (searchProperty.PropertyType == typeof(decimal)) {
+                } else if(searchProperty.PropertyType == typeof(decimal)) {
                     decimal a = (decimal)searchProperty.GetValue(data[mid]);
                     decimal b = 0;
                     decimal.TryParse((string)value, out b);
-                    if (a > b) {
+                    if(a > b) {
                         high = mid - 1;
-                    } else if (a < b) {
+                    } else if(a < b) {
                         low = mid + 1;
                     } else {
                         return mid;
                     }
-                } else if (searchProperty.PropertyType == typeof(long)) {
+                } else if(searchProperty.PropertyType == typeof(long)) {
                     long a = (long)searchProperty.GetValue(data[mid]);
                     long b = (long)value;
-                    if (a > b) {
+                    if(a > b) {
                         high = mid - 1;
-                    } else if (a < b) {
+                    } else if(a < b) {
                         low = mid + 1;
                     } else {
                         return mid;
                     }
-                } else if (searchProperty.PropertyType == typeof(DateTime)) {
+                } else if(searchProperty.PropertyType == typeof(DateTime)) {
                     DateTime a = (DateTime)searchProperty.GetValue(data[mid]);
                     DateTime b = new DateTime();
                     DateTime.TryParse(value.ToString(), out b);
-                   
-                    if (a > b) {
+
+                    if(a > b) {
                         high = mid - 1;
-                    } else if (a < b) {
+                    } else if(a < b) {
                         low = mid + 1;
                     } else {
                         return mid;

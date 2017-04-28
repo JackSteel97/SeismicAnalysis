@@ -4,12 +4,15 @@ using System.Reflection;
 
 namespace SeismicAnalysis {
 
+    /// <summary>
+    /// Class containing static methods for sorting
+    /// </summary>
     internal class Sorting {
 
         /// <summary>
         /// Bubble sorts data
         /// Space complexity: O(1)
-        /// Time complexity: 
+        /// Time complexity:
         ///     Best: O(n)
         ///  Average: O(n^2)
         ///    Worst: O(n^2)
@@ -18,11 +21,11 @@ namespace SeismicAnalysis {
         /// <param name="sortProperty">Property to sort by</param>
         /// <param name="steps">reference to step counter</param>
         /// <returns>Sorted array</returns>
-        public static SeismicRecord[] bubbleSort(SeismicRecord[] data, PropertyInfo sortProperty, ref int steps) {
+        public static SeismicRecord[] bubbleSort (SeismicRecord[] data, PropertyInfo sortProperty, ref int steps) {
             bool isSorted;
             for(int i = 0; i < data.Length - 1; i++) {
                 isSorted = true;
-                for(int j = 0; j<data.Length-1-i; j++) {
+                for(int j = 0; j < data.Length - 1 - i; j++) {
                     steps++;
                     if(sortProperty.PropertyType == typeof(int)) {
                         int a = (int)sortProperty.GetValue(data[j + 1]);
@@ -34,17 +37,17 @@ namespace SeismicAnalysis {
                             data[j + 1] = temp;
                             isSorted = false;
                         }
-                    }else if(sortProperty.PropertyType == typeof(string)) {
+                    } else if(sortProperty.PropertyType == typeof(string)) {
                         string a = (string)sortProperty.GetValue(data[j + 1]);
                         string b = (string)sortProperty.GetValue(data[j]);
-                        if(string.Compare(a,b)<0) {
+                        if(string.Compare(a, b) < 0) {
                             //swap
                             SeismicRecord temp = data[j];
                             data[j] = data[j + 1];
                             data[j + 1] = temp;
                             isSorted = false;
                         }
-                    }else if(sortProperty.PropertyType == typeof(decimal)) {
+                    } else if(sortProperty.PropertyType == typeof(decimal)) {
                         decimal a = (decimal)sortProperty.GetValue(data[j + 1]);
                         decimal b = (decimal)sortProperty.GetValue(data[j]);
                         if(a < b) {
@@ -54,7 +57,7 @@ namespace SeismicAnalysis {
                             data[j + 1] = temp;
                             isSorted = false;
                         }
-                    }else if(sortProperty.PropertyType == typeof(long)) {
+                    } else if(sortProperty.PropertyType == typeof(long)) {
                         long a = (long)sortProperty.GetValue(data[j + 1]);
                         long b = (long)sortProperty.GetValue(data[j]);
                         if(a < b) {
@@ -64,7 +67,7 @@ namespace SeismicAnalysis {
                             data[j + 1] = temp;
                             isSorted = false;
                         }
-                    }else if(sortProperty.PropertyType == typeof(DateTime)) {
+                    } else if(sortProperty.PropertyType == typeof(DateTime)) {
                         DateTime a = (DateTime)sortProperty.GetValue(data[j + 1]);
                         DateTime b = (DateTime)sortProperty.GetValue(data[j]);
                         if(a < b) {
@@ -79,11 +82,9 @@ namespace SeismicAnalysis {
                 if(isSorted) {
                     break;
                 }
-                
             }
             return data;
         }
-
 
         /// <summary>
         /// Heap sort the data
@@ -102,7 +103,7 @@ namespace SeismicAnalysis {
             for(int j = (heapSize / 2) - 1; j >= 0; j--) {
                 MaxHeapify(ref data, heapSize, j, sortProperty, ref steps);
             }
-
+            //sort heap
             for(int i = data.Length - 1; i > 0; i--) {
                 //swap
                 steps++;
@@ -149,7 +150,7 @@ namespace SeismicAnalysis {
                 if(left < heapSize) {
                     string a = (string)sortProperty.GetValue(data[left]);
                     string b = (string)sortProperty.GetValue(data[index]);
-                    if(string.Compare(a,b)>0) {
+                    if(string.Compare(a, b) > 0) {
                         largest = left;
                     }
                 } else {
@@ -243,9 +244,11 @@ namespace SeismicAnalysis {
         /// <param name="steps">reference to step counter</param>
         /// <returns>A sorted array</returns>
         public static SeismicRecord[] insertionSort (SeismicRecord[] data, PropertyInfo sortProperty, ref int steps) {
+            //iterate through the array
             for(int i = 1; i < data.Length; i++) {
                 SeismicRecord temp = data[i];
                 int j = i - 1;
+                //repeat until the element is sorted
                 while(j >= 0) {
                     steps++;
                     if(sortProperty.PropertyType == typeof(int)) {
@@ -330,7 +333,7 @@ namespace SeismicAnalysis {
 
             for(int j = low; j < high; j++) {
                 steps++;
-                //extract data that is being compared and cast correctly for accurate comparison
+                //determine how to cast and compare the values
                 if(sortProperty.PropertyType == typeof(string)) {
                     string a = (string)sortProperty.GetValue(data[j]);
                     string b = (string)sortProperty.GetValue(pivot);
@@ -385,7 +388,6 @@ namespace SeismicAnalysis {
                 }
             }
             //swap
-
             SeismicRecord temp2 = (SeismicRecord)data[i + 1].Clone();
             data[i + 1] = data[high];
             data[high] = temp2;
@@ -406,20 +408,22 @@ namespace SeismicAnalysis {
         /// <returns>A sorted array</returns>
         public static SeismicRecord[] mergeSort (SeismicRecord[] data, PropertyInfo sortProperty, ref int steps) {
             steps++;
+            //array has been divided as much as possible
             if(data.Length <= 1) {
                 return data;
             }
 
+            //find midpoint index
             int middleIndex = (data.Length) / 2;
             SeismicRecord[] left = new SeismicRecord[middleIndex];
             SeismicRecord[] right = new SeismicRecord[data.Length - middleIndex];
-
+            //divide the source array into two arrays of roughly equal size
             Array.Copy(data, left, middleIndex);
             Array.Copy(data, middleIndex, right, 0, right.Length);
-
+            //merge sort each of the halves
             left = mergeSort(left, sortProperty, ref steps);
             right = mergeSort(right, sortProperty, ref steps);
-
+            //merge the arrays back together in order
             return merge(left, right, sortProperty, ref steps);
         }
 
@@ -433,8 +437,10 @@ namespace SeismicAnalysis {
         private static SeismicRecord[] merge (SeismicRecord[] a, SeismicRecord[] b, PropertyInfo sortProperty, ref int steps) {
             ArrayList c = new ArrayList();
 
+            //repeat until either array a or array b is empty
             while(a.Length > 0 && b.Length > 0) {
                 steps++;
+                //determine how to cast and compare the values
                 if(sortProperty.PropertyType == typeof(int)) {
                     int itemA = (int)sortProperty.GetValue(a[0]);
                     int itemB = (int)sortProperty.GetValue(b[0]);
@@ -488,18 +494,21 @@ namespace SeismicAnalysis {
                 }
             }
 
+            //repeat until array a is empty
             while(a.Length > 0) {
                 steps++;
                 c.Add(a[0].Clone());
                 a = removeAt(0, a);
             }
 
+            //repeat until array b is empty
             while(b.Length > 0) {
                 steps++;
                 c.Add(b[0].Clone());
                 b = removeAt(0, b);
             }
 
+            //convert c to an array and avoid null references by cloning
             SeismicRecord[] output = new SeismicRecord[c.Count];
             int count = 0;
             foreach(SeismicRecord s in c) {
@@ -517,14 +526,19 @@ namespace SeismicAnalysis {
         /// <param name="inputArray">Array to remove from</param>
         /// <returns>An array without the specified element</returns>
         private static SeismicRecord[] removeAt (int index, SeismicRecord[] inputArray) {
+            //create a new array of size one less than inputArray size
             SeismicRecord[] output = new SeismicRecord[inputArray.Length - 1];
             int count = 0;
+            //iterate through the source array
             for(int i = 0; i < inputArray.Length; i++) {
+                //is the index of the source array the index to be removed?
                 if(i != index) {
+                    //no, copy from source array to destination array
                     output[count] = (SeismicRecord)inputArray[i].Clone();
                     count++;
                 }
             }
+            //return destination array
             return output;
         }
     }

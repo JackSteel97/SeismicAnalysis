@@ -395,7 +395,7 @@ namespace SeismicAnalysis {
                     //concatenate the datasets into a single array
                     SeismicRecord[] output = new SeismicRecord[first.Length + second.Length];
                     first.CopyTo(output, 0);
-                    first.CopyTo(output, first.Length);
+                    second.CopyTo(output, first.Length);
                     return output;
 
                 default:

@@ -106,7 +106,6 @@ namespace SeismicAnalysis {
             //sort heap
             for(int i = data.Length - 1; i > 0; i--) {
                 //swap
-                steps++;
                 SeismicRecord temp = data[i];
                 data[i] = data[0];
                 data[0] = temp;
@@ -128,6 +127,7 @@ namespace SeismicAnalysis {
             int left = (2 * (index + 1)) - 1;
             int right = 2 * (index + 1);
             int largest = index;
+            steps++;
             if(sortProperty.PropertyType == typeof(int)) {
                 if(left < heapSize) {
                     int a = (int)sortProperty.GetValue(data[left]);
@@ -221,8 +221,7 @@ namespace SeismicAnalysis {
             }
 
             if(largest != index) {
-                //swap
-                steps++;
+                //swap              
                 SeismicRecord temp = data[index];
                 data[index] = data[largest];
                 data[largest] = temp;
@@ -312,7 +311,6 @@ namespace SeismicAnalysis {
         /// <returns>A sorted array</returns>
         public static void quickSort (ref SeismicRecord[] data, int low, int high, PropertyInfo sortProperty, ref int steps) {
             if(low < high) {
-                steps++;
                 int p = partition(ref data, low, high, sortProperty, ref steps);
                 quickSort(ref data, low, p - 1, sortProperty, ref steps);
                 quickSort(ref data, p + 1, high, sortProperty, ref steps);
@@ -407,7 +405,6 @@ namespace SeismicAnalysis {
         /// <param name="steps">The number of steps taken to sort</param>
         /// <returns>A sorted array</returns>
         public static SeismicRecord[] mergeSort (SeismicRecord[] data, PropertyInfo sortProperty, ref int steps) {
-            steps++;
             //array has been divided as much as possible
             if(data.Length <= 1) {
                 return data;

@@ -9,6 +9,12 @@ namespace SeismicAnalysis {
     /// </summary>
     internal class Searching {
 
+        /// <summary>
+        /// Use a linear type search to go through the entire array and find the lowest value
+        /// </summary>
+        /// <param name="data">data to search through</param>
+        /// <param name="searchProperty">property to search in</param>
+        /// <returns>A record with minimum value</returns>
         public static SeismicRecord findMinimumValue (SeismicRecord[] data, PropertyInfo searchProperty) {
             //validate data first
             if(data.Length <= 0) {
@@ -49,6 +55,13 @@ namespace SeismicAnalysis {
             return currentMin;
         }
 
+
+        /// <summary>
+        /// Use a linear type search to go through the entire array and find the highest value
+        /// </summary>
+        /// <param name="data">data to search through</param>
+        /// <param name="searchProperty">property to search in</param>
+        /// <returns>A record with maximum value</returns>
         public static SeismicRecord findMaximumValue (SeismicRecord[] data, PropertyInfo searchProperty) {
             //validate data first
             if(data.Length <= 0) {

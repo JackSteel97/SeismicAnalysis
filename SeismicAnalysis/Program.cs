@@ -53,16 +53,16 @@ namespace SeismicAnalysis {
             Process p = Process.GetCurrentProcess();
             ShowWindow(p.MainWindowHandle, 3);
             Console.SetBufferSize(9001, 1920);
-
+            
             //repeat forever so the program doesn't need to be restarted
             while(true) {
                 //get which data set the user wants to use
                 int datasetSelection = chooseDataset();
                 Console.Clear();
-
+                
                 //load the selected dataset
                 SeismicRecord[] data = loadDataset(datasetSelection);
-
+                AlgorithmEvaluation.runEvaluation(data);
                 //get what the user wants to do with the data
                 int actionSelection = actionChoice();
                 Console.Clear();

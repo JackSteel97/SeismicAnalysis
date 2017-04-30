@@ -290,6 +290,16 @@ namespace SeismicAnalysis {
                         } else {
                             break;
                         }
+                    } else if(sortProperty.PropertyType == typeof(DateTime)) {
+                        DateTime a = (DateTime)sortProperty.GetValue(data[j]);
+                        DateTime b = (DateTime)sortProperty.GetValue(temp);
+                        if(a > b) {
+                            //swap
+                            data[j + 1] = data[j];
+                            j--;
+                        } else {
+                            break;
+                        }
                     }
                     data[j + 1] = temp;
                 }

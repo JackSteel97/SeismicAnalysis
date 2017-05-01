@@ -55,7 +55,6 @@ namespace SeismicAnalysis {
             return currentMin;
         }
 
-
         /// <summary>
         /// Use a linear type search to go through the entire array and find the highest value
         /// </summary>
@@ -262,7 +261,7 @@ namespace SeismicAnalysis {
                     }
                 } else if(searchProperty.PropertyType == typeof(int)) {
                     int a = (int)searchProperty.GetValue(data[mid]);
-                   int b = Convert.ToInt32(value);
+                    int b = Convert.ToInt32(value);
                     if(a > b) {
                         high = mid - 1;
                     } else if(a < b) {
@@ -316,7 +315,7 @@ namespace SeismicAnalysis {
         /// <param name="searchProperty">property to search in</param>
         /// <param name="steps">reference to steps counter</param>
         /// <returns>An array of matches</returns>
-        public static SeismicRecord[] binarySearchForMultiple(SeismicRecord[] data, object value, PropertyInfo searchProperty, ref int steps) {
+        public static SeismicRecord[] binarySearchForMultiple (SeismicRecord[] data, object value, PropertyInfo searchProperty, ref int steps) {
             int lower = binarySearchLeft(data, value, searchProperty, ref steps);
             int upper = binarySearchRight(data, value, searchProperty, ref steps);
 
@@ -324,7 +323,6 @@ namespace SeismicAnalysis {
             Array.Copy(data, lower, output, 0, upper - lower);
             return output;
         }
-
 
         /// <summary>
         /// Perform a binary search and return the rightmost match's index
@@ -334,7 +332,7 @@ namespace SeismicAnalysis {
         /// <param name="searchProperty">property to search in</param>
         /// <param name="steps">reference to steps counter</param>
         /// <returns>Index of rightmost match</returns>
-        private static int binarySearchRight(SeismicRecord[] data, object value, PropertyInfo searchProperty, ref int steps) {
+        private static int binarySearchRight (SeismicRecord[] data, object value, PropertyInfo searchProperty, ref int steps) {
             int low = 0;
             int high = data.Length - 1;
 
@@ -343,7 +341,7 @@ namespace SeismicAnalysis {
                 steps++;
                 if(searchProperty.PropertyType == typeof(int)) {
                     int a = (int)searchProperty.GetValue(data[mid]);
-                   int b = Convert.ToInt32(value);
+                    int b = Convert.ToInt32(value);
                     if(a > b) {
                         high = mid - 1;
                     } else {
@@ -354,7 +352,6 @@ namespace SeismicAnalysis {
                     string b = (string)value;
                     if(string.Compare(a, b) > 0) {
                         high = mid - 1;
-
                     } else {
                         low = mid + 1;
                     }
@@ -363,7 +360,6 @@ namespace SeismicAnalysis {
                     long b = (long)value;
                     if(a > b) {
                         high = mid - 1;
-
                     } else {
                         low = mid + 1;
                     }
@@ -373,7 +369,6 @@ namespace SeismicAnalysis {
                     decimal.TryParse(value.ToString(), out b);
                     if(a > b) {
                         high = mid - 1;
-
                     } else {
                         low = mid + 1;
                     }
@@ -383,7 +378,6 @@ namespace SeismicAnalysis {
                     DateTime.TryParse(value.ToString(), out b);
                     if(a > b) {
                         high = mid - 1;
-
                     } else {
                         low = mid + 1;
                     }
@@ -391,7 +385,6 @@ namespace SeismicAnalysis {
             }
             return low;
         }
-
 
         /// <summary>
         /// Perform a binary search and return the leftmost match's index
@@ -410,7 +403,7 @@ namespace SeismicAnalysis {
                 steps++;
                 if(searchProperty.PropertyType == typeof(int)) {
                     int a = (int)searchProperty.GetValue(data[mid]);
-                   int b = Convert.ToInt32(value);
+                    int b = Convert.ToInt32(value);
                     if(a >= b) {
                         high = mid - 1;
                     } else {
@@ -421,7 +414,6 @@ namespace SeismicAnalysis {
                     string b = (string)value;
                     if(string.Compare(a, b) >= 0) {
                         high = mid - 1;
-
                     } else {
                         low = mid + 1;
                     }
@@ -430,7 +422,6 @@ namespace SeismicAnalysis {
                     long b = (long)value;
                     if(a >= b) {
                         high = mid - 1;
-
                     } else {
                         low = mid + 1;
                     }
@@ -440,7 +431,6 @@ namespace SeismicAnalysis {
                     decimal.TryParse(value.ToString(), out b);
                     if(a >= b) {
                         high = mid - 1;
-
                     } else {
                         low = mid + 1;
                     }
@@ -450,7 +440,6 @@ namespace SeismicAnalysis {
                     DateTime.TryParse(value.ToString(), out b);
                     if(a >= b) {
                         high = mid - 1;
-
                     } else {
                         low = mid + 1;
                     }
@@ -458,6 +447,5 @@ namespace SeismicAnalysis {
             }
             return low;
         }
-
     }
 }

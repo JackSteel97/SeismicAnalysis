@@ -221,7 +221,7 @@ namespace SeismicAnalysis {
             }
 
             if(largest != index) {
-                //swap              
+                //swap
                 SeismicRecord temp = data[index];
                 data[index] = data[largest];
                 data[largest] = temp;

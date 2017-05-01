@@ -53,16 +53,16 @@ namespace SeismicAnalysis {
             Process p = Process.GetCurrentProcess();
             ShowWindow(p.MainWindowHandle, 3);
             Console.SetBufferSize(9001, 1920);
-            
+
             //repeat forever so the program doesn't need to be restarted
             while(true) {
                 //get which data set the user wants to use
                 int datasetSelection = chooseDataset();
                 Console.Clear();
-                
+
                 //load the selected dataset
                 SeismicRecord[] data = loadDataset(datasetSelection);
-               
+
                 //get what the user wants to do with the data
                 int actionSelection = actionChoice();
                 Console.Clear();
@@ -104,6 +104,7 @@ namespace SeismicAnalysis {
                         //find and output the maximum value from their selected data column
                         outputCurrentState(Searching.findMaximumValue(data, data[0].GetType().GetProperty(dataSelection)));
                         break;
+
                     case 5:
                         //evaluation
                         AlgorithmEvaluation.runEvaluation(data);
@@ -193,10 +194,11 @@ namespace SeismicAnalysis {
                                 Console.WriteLine("No results found.");
                             }
                             break;
+
                         case 4:
                             //binary for multiple
                             SeismicRecord[] result6 = binarySearchForMultiple(data, dataSelection);
-                            if(result6 != null && result6.Length>0) {
+                            if(result6 != null && result6.Length > 0) {
                                 //output result
                                 outputCurrentState(result6);
                             } else {
@@ -219,7 +221,7 @@ namespace SeismicAnalysis {
             Console.Write("\nEnter your search term: ");
             string input = Console.ReadLine();
             int steps = 0;
-            return Searching.linearSearchForMultiple(data, input, data[0].GetType().GetProperty(dataSelection),ref steps);
+            return Searching.linearSearchForMultiple(data, input, data[0].GetType().GetProperty(dataSelection), ref steps);
         }
 
         /// <summary>
@@ -234,7 +236,7 @@ namespace SeismicAnalysis {
                 Console.Write("\nEnter your search term: ");
                 input = Console.ReadLine();
             }
-            
+
             int steps = 0;
             //timing measurement
             DateTime start = DateTime.Now;
@@ -252,8 +254,7 @@ namespace SeismicAnalysis {
             }
         }
 
-
-        private static SeismicRecord[] binarySearchForMultiple(SeismicRecord[] data, string dataSelection) {
+        private static SeismicRecord[] binarySearchForMultiple (SeismicRecord[] data, string dataSelection) {
             Console.Write("\nEnter your search term: ");
             string input = Console.ReadLine();
             int steps = 0;
@@ -265,9 +266,10 @@ namespace SeismicAnalysis {
             SeismicRecord[] result = Searching.binarySearchForMultiple(data, input, data[0].GetType().GetProperty(dataSelection), ref steps);
             //timing measurement
             DateTime end = DateTime.Now;
-            Console.WriteLine("\nSorted and searched {0} elements in {1} steps using binary search\nTime elapsed: {2}ms\n{3} results found", data.Length, steps, (end - start).TotalMilliseconds,result.Length);
+            Console.WriteLine("\nSorted and searched {0} elements in {1} steps using binary search\nTime elapsed: {2}ms\n{3} results found", data.Length, steps, (end - start).TotalMilliseconds, result.Length);
             return result;
         }
+
         /// <summary>
         /// Perform a linear search
         /// </summary>
@@ -287,8 +289,6 @@ namespace SeismicAnalysis {
             Console.WriteLine("\nFound in {0} steps using linear search\nTime elapsed: {1}ms", steps, (end - start).TotalMilliseconds);
             return result;
         }
-
-
 
         /// <summary>
         /// Ask the user what search method they want to use
@@ -311,7 +311,7 @@ namespace SeismicAnalysis {
             //get a month number from user input
             int month = getMonthNumber(input);
             int steps = 0;
-            return Searching.linearSearchForMultiple(data, month, data[0].GetType().GetProperty("Month"),ref steps);
+            return Searching.linearSearchForMultiple(data, month, data[0].GetType().GetProperty("Month"), ref steps);
         }
 
         /// <summary>
@@ -380,7 +380,7 @@ namespace SeismicAnalysis {
                 DateTime target = new DateTime();
                 if(DateTime.TryParse(input, out target)) {
                     //search
-                    return binarySearchForOne(data, "Date",false);
+                    return binarySearchForOne(data, "Date", false);
                 } else {
                     //invalid, ask again
                     Console.WriteLine("Invalid date format. Try again");
@@ -442,7 +442,6 @@ namespace SeismicAnalysis {
             }
         }
 
-        
         /// <summary>
         /// Ask user to choose a dataset
         /// </summary>

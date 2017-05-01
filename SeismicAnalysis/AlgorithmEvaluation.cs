@@ -9,6 +9,7 @@ namespace SeismicAnalysis {
         //results[i][1] = average steps
         //results[i][2] = average time taken
         private static string[][] results = new string[5][];
+
         private static string[][] searchResults = new string[6][];
 
         /// <summary>
@@ -18,7 +19,7 @@ namespace SeismicAnalysis {
         public static void runEvaluation (SeismicRecord[] rawData) {
             Console.WriteLine("Dataset size: {0} elements\n", rawData.Length);
             Console.WriteLine("Running Evaluation, please wait this may take some time...");
-            
+
             if(!(rawData.Length > 0)) {
                 Console.WriteLine("Data empty!");
                 return;
@@ -26,12 +27,10 @@ namespace SeismicAnalysis {
             //initalise jagged array
             for(int i = 0; i < results.GetLength(0); i++) {
                 results[i] = new string[3];
-               
             }
             //initalise jagged array
             for(int i = 0; i < searchResults.GetLength(0); i++) {
                 searchResults[i] = new string[3];
-
             }
 
             PropertyInfo[] props = rawData[0].GetType().GetProperties();
@@ -47,7 +46,7 @@ namespace SeismicAnalysis {
             Console.WriteLine("\tRunning Insertion Sort...");
             evaluateInsertionSort(props, rawData);
 
-            //searching evaluation        
+            //searching evaluation
             Console.WriteLine("\tRunning Binary Search on unsorted data...");
             evaluateBinarySearchOnUnsorted(props, rawData);
             Console.WriteLine("\tRunning Binary Search on sorted data...");
@@ -191,7 +190,7 @@ namespace SeismicAnalysis {
                 int index = rnd.Next(data.Length);
 
                 //start timer
-                DateTime start = DateTime.Now;                
+                DateTime start = DateTime.Now;
                 //search
                 Searching.linearSearchForOne(data, p.GetValue(data[index]), p, ref steps);
                 //stop timer
@@ -241,7 +240,7 @@ namespace SeismicAnalysis {
             //add to results
             searchResults[1][0] = "Binary search on sorted data";
             searchResults[1][1] = Math.Round((double)totalSteps / props.Length).ToString();
-            searchResults[1][2] = Math.Round((totalTime / props.Length), 2,MidpointRounding.AwayFromZero).ToString();
+            searchResults[1][2] = Math.Round((totalTime / props.Length), 2, MidpointRounding.AwayFromZero).ToString();
         }
 
         /// <summary>
@@ -261,7 +260,7 @@ namespace SeismicAnalysis {
                 //get a value to search for
                 Random rnd = new Random();
                 int index = rnd.Next(data.Length);
-                
+
                 //start timer
                 DateTime start = DateTime.Now;
                 //sort it for binary search
@@ -287,22 +286,20 @@ namespace SeismicAnalysis {
             Console.Clear();
             Console.WriteLine("Results:");
             Console.WriteLine("\tSorting:\n");
-            
+
             //headers
             Console.WriteLine("\t\t{0,-40}\t|\t{1,-40}\t|\t{2,-40}", "METHOD", "AVERAGE TIME ELAPSED(ms)", "AVERAGE STEPS TAKEN");
             //data
             for(int i = 0; i < results.GetLength(0); i++) {
-                
-                Console.WriteLine("\t\t{0,-40}\t|\t{1,-40}\t|\t{2,-40}", results[i][0], Convert.ToDecimal(results[i][2]), string.Format("{0:n0}",Convert.ToInt32(results[i][1])));
+                Console.WriteLine("\t\t{0,-40}\t|\t{1,-40}\t|\t{2,-40}", results[i][0], Convert.ToDecimal(results[i][2]), string.Format("{0:n0}", Convert.ToInt32(results[i][1])));
             }
             Console.ResetColor();
-           
+
             Console.WriteLine("\n\n\tSearching:\n");
             Console.WriteLine("\t\t{0,-40}\t|\t{1,-40}\t|\t{2,-40}\t", "METHOD", "AVERAGE TIME ELAPSED(ms)", "AVERAGE STEPS TAKEN");
             //data
             for(int i = 0; i < searchResults.GetLength(0); i++) {
-                
-                Console.WriteLine("\t\t{0,-40}\t|\t{1,-40}\t|\t{2,-40}", searchResults[i][0], Convert.ToDecimal(searchResults[i][2]), string.Format("{0:n0}",Convert.ToInt32(searchResults[i][1])));
+                Console.WriteLine("\t\t{0,-40}\t|\t{1,-40}\t|\t{2,-40}", searchResults[i][0], Convert.ToDecimal(searchResults[i][2]), string.Format("{0:n0}", Convert.ToInt32(searchResults[i][1])));
             }
         }
 

@@ -672,10 +672,10 @@ namespace SeismicAnalysis {
         /// <param name="data">Data to output</param>
         private static void outputCurrentState (SeismicRecord[] data) {
             //headers
-            Console.WriteLine("\t{0,-25}\t|\t{1,-25}\t|\t{2,-25}\t|\t{3,-25}\t|\t{4,-25}\t|\t{5,-25}\t|\t{6,-25}\t|\t{7,-25}\t|\t{8,-25}\t|\t{9,-25}\t|\t{10,-25}", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
+            Console.WriteLine("\t{0,-5}\t|\t{1,-10}\t|\t{2,-4}\t|\t{3,-10}\t|\t{4,-10}\t|\t{5,-10}\t|\t{6,-10}\t|\t{7,-10}\t|\t{8,-25}\t|\t{9,-10}\t|\t{10,-25}", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
             //data
             foreach(SeismicRecord s in data) {
-                Console.WriteLine("\t{0,-25}\t|\t{1,-25}\t|\t{2,-25}\t|\t{3,-25}\t|\t{4,-25}\t|\t{5,-25}\t|\t{6,-25}\t|\t{7,-25}\t|\t{8,-25}\t|\t{9,-25}\t|\t{10,-25}", s.Year, s.getMonth(), s.getDay(), s.Time, s.Magnitude, s.Lat, s.Lon, s.Depth, s.Region, s.ID, s.Timestamp);
+                Console.WriteLine("\t{0,-5}\t|\t{1,-10}\t|\t{2,-4}\t|\t{3,-10}\t|\t{4,-10}\t|\t{5,-10}\t|\t{6,-10}\t|\t{7,-10}\t|\t{8,-25}\t|\t{9,-10}\t|\t{10,-25}", s.Year, s.getMonth(), s.getDay(), s.Time, s.Magnitude, s.Lat, s.Lon, s.Depth, s.Region, s.ID, s.Timestamp);
             }
         }
 

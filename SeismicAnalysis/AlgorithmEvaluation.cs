@@ -10,6 +10,11 @@ namespace SeismicAnalysis {
         //results[i][2] = average time taken
         private static string[][] results = new string[5][];
         private static string[][] searchResults = new string[6][];
+
+        /// <summary>
+        /// Run and output the evaluation results
+        /// </summary>
+        /// <param name="rawData">data</param>
         public static void runEvaluation (SeismicRecord[] rawData) {
             Console.WriteLine("Dataset size: {0} elements\n", rawData.Length);
             Console.WriteLine("Running Evaluation, please wait this may take some time...");
@@ -61,6 +66,11 @@ namespace SeismicAnalysis {
             outputResults();
         }
 
+        /// <summary>
+        /// Run binary search for multiple on unsorted data for each property and get metrics
+        /// </summary>
+        /// <param name="props">properties</param>
+        /// <param name="rawData">data to search</param>
         private static void evaluateBinarySearchForMultipleUnsorted (PropertyInfo[] props, SeismicRecord[] rawData) {
             int totalSteps = 0;
             double totalTime = 0;
@@ -92,6 +102,11 @@ namespace SeismicAnalysis {
             searchResults[5][2] = Math.Round((totalTime / props.Length), 2).ToString();
         }
 
+        /// <summary>
+        /// Run binary search for multiple on sorted data for each property and get metrics
+        /// </summary>
+        /// <param name="props">properties</param>
+        /// <param name="rawData">data to search</param>
         private static void evaluateBinarySearchForMultiple (PropertyInfo[] props, SeismicRecord[] rawData) {
             int totalSteps = 0;
             double totalTime = 0;
@@ -123,6 +138,11 @@ namespace SeismicAnalysis {
             searchResults[4][2] = Math.Round((totalTime / props.Length), 2).ToString();
         }
 
+        /// <summary>
+        /// Run linear search for multiple results for each property and get metrics
+        /// </summary>
+        /// <param name="props">properties</param>
+        /// <param name="rawData">data to search</param>
         private static void evaluateLinearSearchForMultiple (PropertyInfo[] props, SeismicRecord[] rawData) {
             int totalSteps = 0;
             double totalTime = 0;
@@ -152,6 +172,11 @@ namespace SeismicAnalysis {
             searchResults[3][2] = Math.Round((totalTime / props.Length), 2).ToString();
         }
 
+        /// <summary>
+        /// Run linear search for single secord for each property and get metrics
+        /// </summary>
+        /// <param name="props">properties</param>
+        /// <param name="rawData">data to search</param>
         private static void evaluateLinearSearchForOne (PropertyInfo[] props, SeismicRecord[] rawData) {
             int totalSteps = 0;
             double totalTime = 0;
@@ -181,6 +206,11 @@ namespace SeismicAnalysis {
             searchResults[2][2] = Math.Round((totalTime / props.Length), 2).ToString();
         }
 
+        /// <summary>
+        /// Run binary search on sorted data for each property and get metrics
+        /// </summary>
+        /// <param name="props">properties</param>
+        /// <param name="rawData">data to search</param>
         private static void evaluateBinarySearchOnSorted (PropertyInfo[] props, SeismicRecord[] rawData) {
             int totalSteps = 0;
             decimal totalTime = 0;
@@ -214,6 +244,11 @@ namespace SeismicAnalysis {
             searchResults[1][2] = Math.Round((totalTime / props.Length), 2,MidpointRounding.AwayFromZero).ToString();
         }
 
+        /// <summary>
+        /// Run binary search on unsorted data for each property and get metrics
+        /// </summary>
+        /// <param name="props">properties</param>
+        /// <param name="rawData">data to search</param>
         private static void evaluateBinarySearchOnUnsorted (PropertyInfo[] props, SeismicRecord[] rawData) {
             int totalSteps = 0;
             double totalTime = 0;
@@ -245,6 +280,9 @@ namespace SeismicAnalysis {
             searchResults[0][2] = Math.Round((totalTime / props.Length), 2).ToString();
         }
 
+        /// <summary>
+        /// Output evaluation results to console
+        /// </summary>
         private static void outputResults () {
             Console.Clear();
             Console.WriteLine("Results:");
@@ -268,6 +306,9 @@ namespace SeismicAnalysis {
             }
         }
 
+        /// <summary>
+        /// Sort the results array by steps taken in ascending order
+        /// </summary>
         private static void sortResultsBySteps () {
             //bubble sort because the array is very small and it is easy to code
             bool isSorted = true;
@@ -290,6 +331,9 @@ namespace SeismicAnalysis {
             }
         }
 
+        /// <summary>
+        /// Sort the searchResults array by steps taken in ascending order
+        /// </summary>
         private static void sortSearchResultsBySteps () {
             //bubble sort because the array is very small and it is easy to code
             bool isSorted = true;
@@ -312,6 +356,11 @@ namespace SeismicAnalysis {
             }
         }
 
+        /// <summary>
+        /// Run heap sort for each property and get metrics
+        /// </summary>
+        /// <param name="props">properties</param>
+        /// <param name="rawData">data to sort</param>
         private static void evaluateHeapSort (PropertyInfo[] props, SeismicRecord[] rawData) {
             int totalSteps = 0;
             double totalTime = 0;
@@ -336,6 +385,11 @@ namespace SeismicAnalysis {
             results[4][2] = Math.Round((totalTime / props.Length), 2).ToString();
         }
 
+        /// <summary>
+        /// Run merge sort for each property and get metrics
+        /// </summary>
+        /// <param name="props">properties</param>
+        /// <param name="rawData">data to sort</param>
         private static void evaluateMergeSort (PropertyInfo[] props, SeismicRecord[] rawData) {
             int totalSteps = 0;
             double totalTime = 0;
@@ -360,6 +414,11 @@ namespace SeismicAnalysis {
             results[3][2] = Math.Round((totalTime / props.Length), 2).ToString();
         }
 
+        /// <summary>
+        /// Run insertion sort for each property and get metrics
+        /// </summary>
+        /// <param name="props">properties</param>
+        /// <param name="rawData">data to sort</param>
         private static void evaluateInsertionSort (PropertyInfo[] props, SeismicRecord[] rawData) {
             int totalSteps = 0;
             double totalTime = 0;
@@ -384,6 +443,11 @@ namespace SeismicAnalysis {
             results[2][2] = Math.Round((totalTime / props.Length), 2).ToString();
         }
 
+        /// <summary>
+        /// Run bubble sort for each property and get metrics
+        /// </summary>
+        /// <param name="props">properties</param>
+        /// <param name="rawData">data to sort</param>
         private static void evaluateBubbleSort (PropertyInfo[] props, SeismicRecord[] rawData) {
             int totalSteps = 0;
             double totalTime = 0;
@@ -408,6 +472,11 @@ namespace SeismicAnalysis {
             results[1][2] = Math.Round((totalTime / props.Length), 2).ToString();
         }
 
+        /// <summary>
+        /// Run quicksort for each property and get metrics
+        /// </summary>
+        /// <param name="props">properties</param>
+        /// <param name="rawData">data to sort</param>
         private static void evaluateQuickSort (PropertyInfo[] props, SeismicRecord[] rawData) {
             int totalSteps = 0;
             double totalTime = 0;
@@ -432,6 +501,11 @@ namespace SeismicAnalysis {
             results[0][2] = Math.Round((totalTime / props.Length), 2).ToString();
         }
 
+        /// <summary>
+        /// Clone an array of SeismicRecord to avoid reference issues
+        /// </summary>
+        /// <param name="data">data to clone</param>
+        /// <returns>A shallow copy of the data</returns>
         private static SeismicRecord[] cloneArray (SeismicRecord[] data) {
             SeismicRecord[] clone = new SeismicRecord[data.Length];
             int count = 0;

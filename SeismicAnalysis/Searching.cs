@@ -308,6 +308,14 @@ namespace SeismicAnalysis {
             return -1;
         }
 
+        /// <summary>
+        /// Binary search for multiple values using leftmost and rightmost insertion point binary searches
+        /// </summary>
+        /// <param name="data">data to search</param>
+        /// <param name="value">value to search for</param>
+        /// <param name="searchProperty">property to search in</param>
+        /// <param name="steps">reference to steps counter</param>
+        /// <returns>An array of matches</returns>
         public static SeismicRecord[] binarySearchForMultiple(SeismicRecord[] data, object value, PropertyInfo searchProperty, ref int steps) {
             int lower = binarySearchLeft(data, value, searchProperty, ref steps);
             int upper = binarySearchRight(data, value, searchProperty, ref steps);
@@ -317,6 +325,15 @@ namespace SeismicAnalysis {
             return output;
         }
 
+
+        /// <summary>
+        /// Perform a binary search and return the rightmost match's index
+        /// </summary>
+        /// <param name="data">data to search</param>
+        /// <param name="value">value to search for</param>
+        /// <param name="searchProperty">property to search in</param>
+        /// <param name="steps">reference to steps counter</param>
+        /// <returns>Index of rightmost match</returns>
         private static int binarySearchRight(SeismicRecord[] data, object value, PropertyInfo searchProperty, ref int steps) {
             int low = 0;
             int high = data.Length - 1;
@@ -375,6 +392,15 @@ namespace SeismicAnalysis {
             return low;
         }
 
+
+        /// <summary>
+        /// Perform a binary search and return the leftmost match's index
+        /// </summary>
+        /// <param name="data">data to search</param>
+        /// <param name="value">value to search for</param>
+        /// <param name="searchProperty">property to search in</param>
+        /// <param name="steps">reference to steps counter</param>
+        /// <returns>Index of leftmost match</returns>
         private static int binarySearchLeft (SeismicRecord[] data, object value, PropertyInfo searchProperty, ref int steps) {
             int low = 0;
             int high = data.Length - 1;

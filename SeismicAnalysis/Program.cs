@@ -670,6 +670,7 @@ namespace SeismicAnalysis {
         /// </summary>
         /// <param name="data">Data to output</param>
         private static void outputCurrentState (SeismicRecord[] data) {
+            writeToHTMLFile(data);
             //headers
             Console.WriteLine("\t{0,-5}\t|\t{1,-10}\t|\t{2,-4}\t|\t{3,-10}\t|\t{4,-10}\t|\t{5,-10}\t|\t{6,-10}\t|\t{7,-10}\t|\t{8,-25}\t|\t{9,-10}\t|\t{10,-25}", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
             //data
@@ -684,6 +685,7 @@ namespace SeismicAnalysis {
         /// <param name="data">data to output</param>
         /// <param name="highlightCol">data column to highlight</param>
         private static void outputCurrentState (SeismicRecord[] data, string highlightCol) {
+            writeToHTMLFile(data);
             Console.WriteLine("\nThe sorted column is highlighted: \n");
             //headers
             Console.WriteLine("\t{0,-25}\t|\t{1,-25}\t|\t{2,-25}\t|\t{3,-25}\t|\t{4,-25}\t|\t{5,-25}\t|\t{6,-25}\t|\t{7,-25}\t|\t{8,-25}\t|\t{9,-25}\t|\t{10,-25}", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
@@ -763,6 +765,10 @@ namespace SeismicAnalysis {
         /// </summary>
         /// <param name="record">Record to output</param>
         private static void outputCurrentState (SeismicRecord record) {
+            //write to html
+            SeismicRecord[] temp = new SeismicRecord[1];
+            temp[0] = record;
+            writeToHTMLFile(temp);
             //headers
             Console.WriteLine("\t{0,-25}\t|\t{1,-25}\t|\t{2,-25}\t|\t{3,-25}\t|\t{4,-25}\t|\t{5,-25}\t|\t{6,-25}\t|\t{7,-25}\t|\t{8,-25}\t|\t{9,-25}\t|\t{10,-25}", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
             //data
@@ -967,6 +973,35 @@ namespace SeismicAnalysis {
             for(int i = 0; i < timestampLines.Length; i++) {
                 timestamp[i] = Convert.ToInt64(timestampLines[i]);
             }
+        }
+        //Enhancing submission
+        /// <summary>
+        /// Outputs to formatted html table and opens in browser
+        /// </summary>
+        /// <param name="data">data to output</param>
+        private static void writeToHTMLFile(SeismicRecord[] data) {
+            //html head and open table tag
+            string topHTML = "<html><head><style>table, th, td {border: 1px solid black;} table{width:100%;}</style></head><body><table>";
+            //header row
+            string headers = string.Format("<tr><th>{0}</th><th>{1}</th><th>{2}</th><th>{3}</th><th>{4}</th><th>{5}</th><th>{6}</th><th>{7}</th><th>{8}</th><th>{9}</th><th>{10}</th></tr>", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
+            string dataRows = "";
+            //data rows
+            foreach(SeismicRecord s in data) {
+                dataRows += string.Format("<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td><td>{6}</td><td>{7}</td><td>{8}</td><td>{9}</td><td>{10}</td></tr>", s.Year, s.getMonth(), s.getDay(), s.Time, s.Magnitude, s.Lat, s.Lon, s.Depth, s.Region, s.ID, s.Timestamp);
+            }
+            //close tags
+            string bottomHTML = "</table></body></body>";
+
+
+            System.IO.StreamWriter file = new System.IO.StreamWriter("results.html");
+            file.Write(topHTML);
+            file.Write(headers);
+            file.Write(dataRows);
+            file.Write(bottomHTML);
+
+            file.Close();
+
+            Process.Start("results.html");
         }
     }
 }

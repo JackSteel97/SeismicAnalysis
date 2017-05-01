@@ -3,6 +3,10 @@ using System.Reflection;
 
 namespace SeismicAnalysis {
 
+    //Enhancing submission
+    /// <summary>
+    /// Class containing methods for evaluating the implemented algorithms
+    /// </summary>
     internal class AlgorithmEvaluation {
 
         //results[i][0] = method

@@ -672,10 +672,10 @@ namespace SeismicAnalysis {
         private static void outputCurrentState (SeismicRecord[] data) {
             writeToHTMLFile(data);
             //headers
-            Console.WriteLine("\t{0,-5}\t|\t{1,-10}\t|\t{2,-4}\t|\t{3,-10}\t|\t{4,-10}\t|\t{5,-10}\t|\t{6,-10}\t|\t{7,-10}\t|\t{8,-25}\t|\t{9,-10}\t|\t{10,-25}", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
+            Console.WriteLine("\t{0,-5}\t|\t{1,-10}\t|\t{2,-4}\t|\t{3,-10}\t|\t{4,-15}\t|\t{5,-10}\t|\t{6,-10}\t|\t{7,-10}\t|\t{8,-25}\t|\t{9,-10}\t|\t{10,-25}", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
             //data
             foreach(SeismicRecord s in data) {
-                Console.WriteLine("\t{0,-5}\t|\t{1,-10}\t|\t{2,-4}\t|\t{3,-10}\t|\t{4,-10}\t|\t{5,-10}\t|\t{6,-10}\t|\t{7,-10}\t|\t{8,-25}\t|\t{9,-10}\t|\t{10,-25}", s.Year, s.getMonth(), s.getDay(), s.Time, s.Magnitude, s.Lat, s.Lon, s.Depth, s.Region, s.ID, s.Timestamp);
+                Console.WriteLine("\t{0,-5}\t|\t{1,-10}\t|\t{2,-4}\t|\t{3,-10}\t|\t{4,-15}\t|\t{5,-10}\t|\t{6,-10}\t|\t{7,-10}\t|\t{8,-25}\t|\t{9,-10}\t|\t{10,-25}", s.Year, s.getMonth(), s.getDay(), s.Time, s.Magnitude, s.Lat, s.Lon, s.Depth, s.Region, s.ID, s.Timestamp);
             }
         }
 
@@ -686,58 +686,59 @@ namespace SeismicAnalysis {
         /// <param name="highlightCol">data column to highlight</param>
         private static void outputCurrentState (SeismicRecord[] data, string highlightCol) {
             writeToHTMLFile(data);
-            Console.WriteLine("\nThe sorted column is highlighted: \n");
+            //Console.WriteLine("\nThe sorted column is highlighted:\n");
             //headers
-            Console.WriteLine("\t{0,-25}\t|\t{1,-25}\t|\t{2,-25}\t|\t{3,-25}\t|\t{4,-25}\t|\t{5,-25}\t|\t{6,-25}\t|\t{7,-25}\t|\t{8,-25}\t|\t{9,-25}\t|\t{10,-25}", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
+            Console.WriteLine("\t{0,-5}\t|\t{1,-10}\t|\t{2,-5}\t|\t{3,-10}\t|\t{4,-15}\t|\t{5,-10}\t|\t{6,-10}\t|\t{7,-10}\t|\t{8,-25}\t|\t{9,-10}\t|\t{10,-25}", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
             //data
+
             foreach(SeismicRecord s in data) {
                 if(highlightCol == "Year") {
                     Console.BackgroundColor = ConsoleColor.Green;
                     Console.ForegroundColor = ConsoleColor.Black;
                 }
-                Console.Write("\t{0,-25}\t|", s.Year);
+                Console.Write("\t{0,-5}\t|", s.Year);
                 Console.ResetColor();
                 if(highlightCol == "Month") {
                     Console.BackgroundColor = ConsoleColor.Green;
                     Console.ForegroundColor = ConsoleColor.Black;
                 }
-                Console.Write("\t{0,-25}\t|", s.getMonth());
+                Console.Write("\t{0,-10}\t|", s.getMonth());
                 Console.ResetColor();
                 if(highlightCol == "Day") {
                     Console.BackgroundColor = ConsoleColor.Green;
                     Console.ForegroundColor = ConsoleColor.Black;
                 }
-                Console.Write("\t{0,-25}\t|", s.getDay());
+                Console.Write("\t{0,-5}\t|", s.getDay());
                 Console.ResetColor();
                 if(highlightCol == "Time") {
                     Console.BackgroundColor = ConsoleColor.Green;
                     Console.ForegroundColor = ConsoleColor.Black;
                 }
-                Console.Write("\t{0,-25}\t|", s.Time);
+                Console.Write("\t{0,-10}\t|", s.Time);
                 Console.ResetColor();
                 if(highlightCol == "Magnitude") {
                     Console.BackgroundColor = ConsoleColor.Green;
                     Console.ForegroundColor = ConsoleColor.Black;
                 }
-                Console.Write("\t{0,-25}\t|", s.Magnitude);
+                Console.Write("\t{0,-15}\t|", s.Magnitude);
                 Console.ResetColor();
                 if(highlightCol == "Lat") {
                     Console.BackgroundColor = ConsoleColor.Green;
                     Console.ForegroundColor = ConsoleColor.Black;
                 }
-                Console.Write("\t{0,-25}\t|", s.Lat);
+                Console.Write("\t{0,-10}\t|", s.Lat);
                 Console.ResetColor();
                 if(highlightCol == "Lon") {
                     Console.BackgroundColor = ConsoleColor.Green;
                     Console.ForegroundColor = ConsoleColor.Black;
                 }
-                Console.Write("\t{0,-25}\t|", s.Lon);
+                Console.Write("\t{0,-10}\t|", s.Lon);
                 Console.ResetColor();
                 if(highlightCol == "Depth") {
                     Console.BackgroundColor = ConsoleColor.Green;
                     Console.ForegroundColor = ConsoleColor.Black;
                 }
-                Console.Write("\t{0,-25}\t|", s.Depth);
+                Console.Write("\t{0,-10}\t|", s.Depth);
                 Console.ResetColor();
                 if(highlightCol == "Region") {
                     Console.BackgroundColor = ConsoleColor.Green;
@@ -749,7 +750,7 @@ namespace SeismicAnalysis {
                     Console.BackgroundColor = ConsoleColor.Green;
                     Console.ForegroundColor = ConsoleColor.Black;
                 }
-                Console.Write("\t{0,-25}\t|", s.ID);
+                Console.Write("\t{0,-10}\t|", s.ID);
                 Console.ResetColor();
                 if(highlightCol == "Timestamp") {
                     Console.BackgroundColor = ConsoleColor.Green;
@@ -770,9 +771,9 @@ namespace SeismicAnalysis {
             temp[0] = record;
             writeToHTMLFile(temp);
             //headers
-            Console.WriteLine("\t{0,-25}\t|\t{1,-25}\t|\t{2,-25}\t|\t{3,-25}\t|\t{4,-25}\t|\t{5,-25}\t|\t{6,-25}\t|\t{7,-25}\t|\t{8,-25}\t|\t{9,-25}\t|\t{10,-25}", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
+            Console.WriteLine("\t{0,-5}\t|\t{1,-10}\t|\t{2,-4}\t|\t{3,-10}\t|\t{4,-15}\t|\t{5,-10}\t|\t{6,-10}\t|\t{7,-10}\t|\t{8,-25}\t|\t{9,-10}\t|\t{10,-25}", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
             //data
-            Console.WriteLine("\t{0,-25}\t|\t{1,-25}\t|\t{2,-25}\t|\t{3,-25}\t|\t{4,-25}\t|\t{5,-25}\t|\t{6,-25}\t|\t{7,-25}\t|\t{8,-25}\t|\t{9,-25}\t|\t{10,-25}", record.Year, record.getMonth(), record.getDay(), record.Time, record.Magnitude, record.Lat, record.Lon, record.Depth, record.Region, record.ID, record.Timestamp);
+            Console.WriteLine("\t{0,-5}\t|\t{1,-10}\t|\t{2,-4}\t|\t{3,-10}\t|\t{4,-15}\t|\t{5,-10}\t|\t{6,-10}\t|\t{7,-10}\t|\t{8,-25}\t|\t{9,-10}\t|\t{10,-25}", record.Year, record.getMonth(), record.getDay(), record.Time, record.Magnitude, record.Lat, record.Lon, record.Depth, record.Region, record.ID, record.Timestamp);
         }
 
         /// <summary>

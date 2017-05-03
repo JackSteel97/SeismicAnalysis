@@ -43,7 +43,7 @@ namespace SeismicAnalysis {
         //import for maximising the console window from: http://stackoverflow.com/questions/22053112/maximizing-console-window-c-sharp
         [DllImport("user32.dll")]
         public static extern bool ShowWindow (System.IntPtr hWnd, int cmdShow);
-
+        
         /// <summary>
         /// Entry point for application
         /// </summary>
@@ -52,7 +52,7 @@ namespace SeismicAnalysis {
             //maximise the window
             Process p = Process.GetCurrentProcess();
             ShowWindow(p.MainWindowHandle, 3);
-            Console.SetBufferSize(9001, 1920);
+            Console.SetBufferSize(1920, 1920);
 
             //repeat forever so the program doesn't need to be restarted
             while(true) {
@@ -230,8 +230,8 @@ namespace SeismicAnalysis {
         /// <param name="data">data to search through</param>
         /// <param name="dataSelection">data column to search in</param>
         /// <returns>A matching record or null if a match cannot be found</returns>
-        private static SeismicRecord binarySearchForOne (SeismicRecord[] data, string dataSelection, bool askForTerm = true) {
-            string input = "";
+        private static SeismicRecord binarySearchForOne (SeismicRecord[] data, string dataSelection, bool askForTerm = true, string input = "") {
+            
             if(askForTerm) {
                 Console.Write("\nEnter your search term: ");
                 input = Console.ReadLine();
@@ -380,7 +380,7 @@ namespace SeismicAnalysis {
                 DateTime target = new DateTime();
                 if(DateTime.TryParse(input, out target)) {
                     //search
-                    return binarySearchForOne(data, "Date", false);
+                    return binarySearchForOne(data, "Date", false,input);
                 } else {
                     //invalid, ask again
                     Console.WriteLine("Invalid date format. Try again");
@@ -686,11 +686,9 @@ namespace SeismicAnalysis {
         /// <param name="highlightCol">data column to highlight</param>
         private static void outputCurrentState (SeismicRecord[] data, string highlightCol) {
             writeToHTMLFile(data);
-            //Console.WriteLine("\nThe sorted column is highlighted:\n");
+            Console.WriteLine("\nThe sorted column is highlighted:\n");
             //headers
             Console.WriteLine("\t{0,-5}\t|\t{1,-10}\t|\t{2,-5}\t|\t{3,-10}\t|\t{4,-15}\t|\t{5,-10}\t|\t{6,-10}\t|\t{7,-10}\t|\t{8,-25}\t|\t{9,-10}\t|\t{10,-25}", "YEAR", "MONTH", "DAY", "TIME", "MAGNITUDE", "LATITUDE", "LONGITUDE", "DEPTH (km)", "REGION", "IRIS ID", "TIMESTAMP");
-            //data
-
             foreach(SeismicRecord s in data) {
                 if(highlightCol == "Year") {
                     Console.BackgroundColor = ConsoleColor.Green;
